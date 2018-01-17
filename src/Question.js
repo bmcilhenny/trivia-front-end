@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import QuestionContent from './QuestionContent';
 
 class Question extends React.Component {
 
@@ -15,28 +16,31 @@ class Question extends React.Component {
   }
 
   getQuestions = () => {
-    let myBody = {difficulty: 'easy', category: '22'}
-    fetch('http://localhost:3000/api/v1/get_questions', {method: "POST", headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-  body: JSON.stringify(myBody)})
-  .then(resp => resp.json())
-  .then(json => this.setState({questions: json.results}, () => console.log(this.state.questions))
-
+    let myBody = {difficulty: 'easy', category: '22'};
+    fetch('http://localhost:3000/api/v1/get_questions', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(myBody)})
+    .then(resp => resp.json())
+    .then(json => json.results)
+    .then(results => this.setState({
+      questions: results
+    }))
 }
 
   render () {
-    return (<div>
-      <h1>Question Time!</h1>
-    <h3>{this.state.questions !== [] ?  "got something" : "Loading"}.</h3>
-
-    </div>)
+    console.log(this.state.questions)
+    const currentQuestion = this.state.currentQuestion;
+    return (
+      <div>
+        {this.state.questions.length ? <QuestionContent question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers}/> : 'Nothing'}
+      </div>
+    )
   }
-
-// <h3>{this.state.questions[this.state.currentQuestion].question}</h3>
-//this.state.questions[this.state.currentQuestion].question
 }
 
 
-export default Question
+export default Question;

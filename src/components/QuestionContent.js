@@ -17,10 +17,8 @@ const QuestionContent = (props) => {
   return (
     <div>
       <h1>Question Time!</h1>
-      <h3>{props.question.length ? props.question.question : "Loading"}.</h3>
-      <ul>
-      {props.question.length ? this.shuffled.map(answer => <button key={answer.id}>{answer}</button>) : "Loading"}
-      </ul>
+      <h3>{props.question}.</h3>
+      {shuffled.map(answer => <button key={answer.id}>{answer}</button>)}
     </div>
   )
 }

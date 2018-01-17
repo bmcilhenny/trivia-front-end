@@ -1,13 +1,14 @@
 import React from 'react';
-import QuestionContent from './QuestionContent';
+import QuestionContent from '../components/QuestionContent';
 
-class Question extends React.Component {
+class QuestionContainer extends React.Component {
 
   constructor(){
     super()
     this.state = {
       questions: [],
-      currentQuestion: 0
+      currentQuestion: 0,
+      currentRound: 1
     }
   }
 
@@ -43,4 +44,4 @@ class Question extends React.Component {
 }
 
 
-export default Question;
+export default QuestionContainer;

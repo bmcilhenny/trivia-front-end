@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Question from './Question'
+import QuestionContainer from './containers/QuestionContainer';
+import Navbar from './Navbar';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Question />
-
-      // Login
-        // Game
-        //   Header with scores
-        //   Question
-
+        <Navbar />
+        <QuestionContainer />
       </div>
     );
   }

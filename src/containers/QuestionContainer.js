@@ -108,7 +108,7 @@ class QuestionContainer extends React.Component {
     return (
       <div>
         <h3>Current Round {this.state.currentRound}</h3>
-        {this.state.questions.length ? <QuestionContent question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess}/> : 'Loading'}
+        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess}/> : 'Loading'}
       </div>
     )
   }

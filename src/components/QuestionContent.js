@@ -1,5 +1,6 @@
 import React from 'react';
 
+let cofefe = '';
 
 class QuestionContent extends React.Component {
 
@@ -8,9 +9,13 @@ class QuestionContent extends React.Component {
 
     this.state ={
       count: 10,
-      shuffled: []
+      shuffled: [],
+      gameState: 1,
+      timer: null
     }
   }
+
+
 
 
   shuffle = (a) => {
@@ -22,35 +27,63 @@ class QuestionContent extends React.Component {
   }
 
   startBuzzer = () => {
-    window.addEventListener('keydown', this.handleBuzz)
-
-    window.setInterval(() => this.setState({count: this.state.count -1}), 1000)
+      window.addEventListener('keydown', this.handleBuzz);
+      this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 500)});
   }
 
-  handleBuzz = (event) => {
-    console.log(event)
-    if (event.code === "ShiftLeft") {
-        alert("Player 1")
-    } else if (event.code === "ShiftRight") {
-        alert("Player 2")
+  updateBuzzer = () => {
+    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 500)});
+  }
+
+  cleanUpCount = () => {
+    console.log("This is the timer", this.state.timer);
+    console.log(this.state)
+    // clearInterval(this.state.timer);
+    console.log("This is the timer after clear", this.state.timer)
+    this.setState({
+      count: 10
+    }, this.props.nextQuestion)
+  }
+
+  componentWillUpdate() {
+    if (this.state.count === 0) {
+      this.setState({
+        count: 0
+      })
+      clearInterval(this.state.timer)
+      this.startBuzzer();
+
+      // this.cleanUpCount();
     }
   }
 
+  handleBuzz = (event) => {
+    if (this.state.gameState === 1) {
+      if (event.code === "ShiftLeft") {
+          alert("Player 1")
+      } else if (event.code === "ShiftRight") {
+          alert("Player 2")
+      }
+    }
 
-  componentWillMount(){
+  }
+
+  //on buzz, reset time, keep track of points, correct answer triggers nextQuestion,
+  //wrong answer disables that button, force player 2 to answer
+
+
+  componentDidMount(){
     const allAnswersArray = [this.props.correctAnswer, ...this.props.incorrectAnswers]
     const shuffledArray = this.shuffle(allAnswersArray)
     this.setState({shuffled: shuffledArray}, this.startBuzzer());
 
   }
-  //
-  // componentWillUnmount(){
-  //
-  // }
-  //
-  // getBuzz = () => {
-  //   setTimeOut(, 10000)
-  // }
+
+  componentWillReceiveProps(nextProps){
+    const allAnswersArray = [nextProps.correctAnswer, ...nextProps.incorrectAnswers]
+    const shuffledArray = this.shuffle(allAnswersArray)
+    this.setState({shuffled: shuffledArray})
+  }
 
 
   render(){

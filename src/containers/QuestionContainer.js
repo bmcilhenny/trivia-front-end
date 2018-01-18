@@ -18,15 +18,13 @@ class QuestionContainer extends React.Component {
 
   removeWeirdEncoding = (json) => {
     json.forEach(question => {
-      debugger;
       question.question = question.question.replace('&quot;', '"').replace('&#039;', "'");
       question.correct_answer = question.correct_answer.replace('&quot;', '"').replace('&#039;', "'");
       question.incorrect_answers[0] = question.incorrect_answers[0].replace('&quot;', '"').replace('&#039;', "'");
       question.incorrect_answers[1] = question.incorrect_answers[1].replace('&quot;', '"').replace('&#039;', "'");
       question.incorrect_answers[2] = question.incorrect_answers[2].replace('&quot;', '"').replace('&#039;', "'");
-      return json;
     })
-
+    return json;
   }
 
   getQuestions = () => {
@@ -37,14 +35,14 @@ class QuestionContainer extends React.Component {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(myBody)})
-    .then(resp => resp.json())
+      body: JSON.stringify(myBody)
+    }).then(resp => resp.json())
     .then(json => json.results)
     .then(results => this.removeWeirdEncoding(results))
     .then(cleanedResults => this.setState({
       questions: cleanedResults
     }))
-}
+  }
 
   render () {
     console.log(this.state.questions)

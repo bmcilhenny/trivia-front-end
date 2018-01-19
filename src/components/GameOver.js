@@ -9,11 +9,13 @@ const GameOver = (props) => {
         return total + num;
         })
     }</h2>
-    <h2>Player 1's Total Score:{props.location.state.player2RoundsArray.reduce(function (total, num) {
+  <h2>Player 2's Total Score:{props.location.state.player2RoundsArray.reduce(function (total, num) {
         return total + num;
         })
     }</h2>
-    <Link to="/"><button>Play Again?</button></Link>
+  <Link to="/"><button>Play Again?</button></Link>
+  <Link to="/startgame"><button>Main Menu</button></Link>
+
     </div>)
 }
 

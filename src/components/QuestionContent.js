@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 
 class QuestionContent extends React.Component {
@@ -63,7 +65,8 @@ class QuestionContent extends React.Component {
   componentDidUpdate() {
     if (this.state.gameState === 4) {
       this.setState({
-        showAnswer: true
+        showAnswer: true,
+        gameState: 5
       }, this.showAnswerTimeOut)
     }
   }
@@ -112,11 +115,11 @@ class QuestionContent extends React.Component {
     setTimeout(this.setUpNextQuestion, 3000)
   }
 
-  calculatePoints(){
+  calculatePositivePoints () {
 
-    let points = 10 * this.props.currentRound + this.state.count
+    let points = 10 * this.props.currentRound + this.state.count;
     if (this.state.gameState === 3) {
-      points = Math.floor(points * (3/4))
+      points = Math.floor(points * (3/4));
     }
     console.log(points)
     if (this.state.answeringPlayer === true) {
@@ -127,11 +130,21 @@ class QuestionContent extends React.Component {
     }
   }
 
+  calculateNegativePoints () {
+    let points = 10 * this.props.currentRound;
+    if (this.state.answeringPlayer === true) {
+
+      this.setState({player1RoundScore: this.state.player1RoundScore - points})
+    } else if (this.state.answeringPlayer === false) {
+      this.setState({player2RoundScore: this.state.player2RoundScore - points})
+    }
+  }
+
   guess = (event) => {
 
     if (event.target.name === "correct") {
       alert("right!")
-      this.calculatePoints();
+      this.calculatePositivePoints();
       this.setUpNextQuestion();
     }
 
@@ -143,6 +156,7 @@ class QuestionContent extends React.Component {
       } else if (this.state.gameState === 3) {
         this.setState({gameState: 4, answeringPlayer: null})
       }
+      this.calculateNegativePoints();
     }
 
     // if (this.state.gameState === 2) {
@@ -157,7 +171,7 @@ class QuestionContent extends React.Component {
 
 
     setUpNextQuestion = () => {
-      this.setState({gameState: 1, answeringPlayer: null}, this.props.nextQuestion)
+      this.setState({gameState: 1, answeringPlayer: null, showAnswer: false}, this.props.nextQuestion)
       this.updateBuzzer()
     }
 
@@ -207,11 +221,8 @@ class QuestionContent extends React.Component {
 
       return (
         <div>
-          <h1>Question Time!</h1>
           <h2>{this.state.count} second left</h2>
           <h2 color="red">{this.displayCurrentPlayer()}</h2>
-          <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>
-          <h3>{this.getTotalScores()}</h3>
           <h3>{this.props.question}</h3>
           {this.state.shuffled.map(answer => <button disabled={this.state.gameState == 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
       </div>
@@ -222,7 +233,7 @@ class QuestionContent extends React.Component {
    showAnswer = () => {
     return (
       <div>
-        {this.props.correctAnswer}
+        <h2>The correct answer was: {this.props.correctAnswer}</h2>
       </div>
     )
   }
@@ -233,6 +244,9 @@ class QuestionContent extends React.Component {
     return (
 
       <div>
+        <h1>Question Time!</h1>
+        <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>
+        <h3>{this.getTotalScores()}</h3>
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
       </div>
     )

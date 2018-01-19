@@ -101,7 +101,7 @@ class QuestionContainer extends React.Component {
   }
 
   updateScore = (score1, score2) => {
-    console.log("updating total score", score1, score2)
+    // console.log("updating total score", score1, score2)
     this.setState({
       player1RoundsArray: [...this.state.player1RoundsArray, score1],
       player2RoundsArray: [...this.state.player2RoundsArray, score2]
@@ -109,10 +109,8 @@ class QuestionContainer extends React.Component {
   }
 
 
-
-
   render () {
-    console.log(this.state.questions)
+    // console.log(this.state.questions)
 
 
     if (this.state.showGameOverScreen) {
@@ -124,8 +122,6 @@ class QuestionContainer extends React.Component {
        }
       } />
     }
-
-
 
 
     const currentQuestion = this.state.currentQuestion;

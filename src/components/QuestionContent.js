@@ -1,17 +1,18 @@
 import React from 'react';
 
-let cofefe = '';
-
 class QuestionContent extends React.Component {
 
   constructor(){
     super()
 
-    this.state ={
+    this.state = {
       count: 10,
       shuffled: [],
       gameState: 1,
-      timer: null
+      timer: null,
+      answeringPlayer: null,
+      player1RoundScore: 0,
+      player2RoundScore: 0,
     }
   }
 
@@ -27,13 +28,15 @@ class QuestionContent extends React.Component {
   }
 
   startBuzzer = () => {
-      window.addEventListener('keydown', this.handleBuzz);
-      this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 500)});
+      window.addEventListener('keydown', this.handleBuzzIn);
+      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
   }
 
   updateBuzzer = () => {
-    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 500)});
+    clearInterval(this.state.timer)
+    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
   }
+
 
   cleanUpCount = () => {
     console.log("This is the timer", this.state.timer);
@@ -42,27 +45,35 @@ class QuestionContent extends React.Component {
     console.log("This is the timer after clear", this.state.timer)
     this.setState({
       count: 10
-    }, this.props.nextQuestion)
+    })
   }
 
   componentWillUpdate() {
     if (this.state.count === 0) {
       this.setState({
-        count: 0
-      })
-      clearInterval(this.state.timer)
-      this.startBuzzer();
-
+        count: 0,
+        gameState: 1
+      }, this.props.nextQuestion)
+      this.updateBuzzer();
       // this.cleanUpCount();
     }
   }
 
-  handleBuzz = (event) => {
+  handleBuzzIn = (event) => {
     if (this.state.gameState === 1) {
       if (event.code === "ShiftLeft") {
+        this.updateBuzzer();
+        this.setState({
+          answeringPlayer: 1,
+          gameState: 2,
+        })
           alert("Player 1")
       } else if (event.code === "ShiftRight") {
-          alert("Player 2")
+        this.updateBuzzer();
+        this.setState({
+          answeringPlayer: 2,
+          gameState: 2,
+        })
       }
     }
 
@@ -75,7 +86,7 @@ class QuestionContent extends React.Component {
   componentDidMount(){
     const allAnswersArray = [this.props.correctAnswer, ...this.props.incorrectAnswers]
     const shuffledArray = this.shuffle(allAnswersArray)
-    this.setState({shuffled: shuffledArray}, this.startBuzzer());
+    this.setState({shuffled: shuffledArray}, () => this.startBuzzer());
 
   }
 
@@ -87,17 +98,16 @@ class QuestionContent extends React.Component {
 
 
   render(){
-
-
-  return (
-    <div>
-      <h1>Question Time!</h1>
-      <h2>{this.state.count} second left</h2>
-      <h3>{this.props.question}</h3>
-      {this.state.shuffled.map(answer => <button onClick={this.props.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
-    </div>
-  )
-}
+    console.log(this.state.gameState)
+    return (
+      <div>
+        <h1>Question Time!</h1>
+        <h2>{this.state.count} second left</h2>
+        <h3>{this.props.question}</h3>
+        {this.state.shuffled.map(answer => <button disabled={this.state.gameState == 1 ? true : false} onClick={this.props.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+      </div>
+    )
+  }
 }
 
 export default QuestionContent;

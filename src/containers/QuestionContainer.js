@@ -8,7 +8,9 @@ class QuestionContainer extends React.Component {
     this.state = {
       questions: [],
       currentQuestion: 0,
-      currentRound: 1
+      currentRound: 1,
+      player1RoundsArray: [],
+      player2RoundsArray: []
     }
   }
 
@@ -26,6 +28,8 @@ class QuestionContainer extends React.Component {
     })
     return json;
   }
+
+
 
   getQuestions = () => {
 
@@ -56,7 +60,7 @@ class QuestionContainer extends React.Component {
     }).then(resp => resp.json())
     .then(json => {if (json.response_code === 1) {
         this.getQuestions();
-    } console.log(json); return json.results})
+    } console.log(json, json.response_code); return json.results})
     .then(results => this.removeWeirdEncoding(results))
     .then(cleanedResults => this.setState({
       questions: cleanedResults, currentQuestion: 0
@@ -64,12 +68,14 @@ class QuestionContainer extends React.Component {
   }
 
   guess = (event) => {
+
     if (event.target.name === "correct") {
       alert("right!")
       //points, etc.
       this.nextQuestion()
     }else {
       alert("wrong!")
+      
       //slops
     }
 

@@ -29,12 +29,12 @@ class QuestionContent extends React.Component {
 
   startBuzzer = () => {
       window.addEventListener('keydown', this.handleBuzzIn);
-      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
+      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 10)});
   }
 
   updateBuzzer = () => {
     clearInterval(this.state.timer)
-    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
+    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 10)});
   }
 
 
@@ -48,6 +48,8 @@ class QuestionContent extends React.Component {
     })
   }
 
+
+//if player 1 times out, go to game phase 3 (add logic)
   componentWillUpdate() {
     if (this.state.count === 0) {
       this.setState({
@@ -64,14 +66,13 @@ class QuestionContent extends React.Component {
       if (event.code === "ShiftLeft") {
         this.updateBuzzer();
         this.setState({
-          answeringPlayer: 1,
+          answeringPlayer: true,
           gameState: 2,
         })
-          alert("Player 1")
       } else if (event.code === "ShiftRight") {
         this.updateBuzzer();
         this.setState({
-          answeringPlayer: 2,
+          answeringPlayer: false,
           gameState: 2,
         })
       }
@@ -94,17 +95,115 @@ class QuestionContent extends React.Component {
     const allAnswersArray = [nextProps.correctAnswer, ...nextProps.incorrectAnswers]
     const shuffledArray = this.shuffle(allAnswersArray)
     this.setState({shuffled: shuffledArray})
+    if (this.props.currentRound !== nextProps.currentRound && nextProps.currentRound !== 1) {
+      this.props.updateScore(this.state.player1RoundScore, this.state.player2RoundScore)
+      this.setState({player1RoundScore: 0, player2RoundScore: 0})
+    }
   }
 
+  calculatePoints(){
+
+    let points = 10 * this.props.currentRound + this.state.count
+    if (this.state.gameState === 3) {
+      points = Math.floor(points * (3/4))
+    }
+    console.log(points)
+    if (this.state.answeringPlayer === true) {
+
+      this.setState({player1RoundScore: this.state.player1RoundScore + points})
+    } else if (this.state.answeringPlayer === false) {
+      this.setState({player2RoundScore: this.state.player2RoundScore + points})
+    }
+  }
+
+  guess = (event) => {
+
+    if (event.target.name === "correct") {
+      alert("right!")
+      this.calculatePoints()
+      this.props.nextQuestion()
+      this.setState({gameState: 1, answeringPlayer: null}, this.props.nextQuestion)
+      this.updateBuzzer()
+    }
+
+    if (event.target.name === "incorrect"){
+      alert("wrong!")
+      event.target.disabled = true
+      if (this.state.gameState === 2) {
+        this.setState({gameState: 3, answeringPlayer: !this.state.answeringPlayer}, this.updateBuzzer)
+      } else if (this.state.gameState === 3) {
+        this.setState({gameState: 1, answeringPlayer: null}, this.props.nextQuestion)
+        this.updateBuzzer()
+      }
+    }
+
+    // if (this.state.gameState === 2) {
+    //   this.setState({gameState: 3, answeringPlayer: !this.state.answeringPlayer}, this.updateBuzzer)
+    // } else if (this.state.gameState === 3) {
+    //   this.setState({gameState: 1, answeringPlayer: null}, this.props.nextQuestion)
+    //   this.updateBuzzer()
+    // }
+
+      //slops
+    }
+
+
+
+  displayCurrentPlayer = () => {
+    if (this.state.answeringPlayer === null) {
+      return "Buzz in!"
+    } else if (this.state.answeringPlayer === true) {
+      return "Player 1's Turn"
+    } else if (this.state.answeringPlayer === false) {
+      return "Player 2's Turn"
+    }
+  }
+
+  getTotalScores = () => {
+    let player1Score = ''
+    let player2Score = ''
+    if (this.props.player1RoundsArray.length !== 0) {
+      player1Score = this.props.player1RoundsArray.reduce(function (total, num) {
+          return total + num;
+          })
+    } else {
+      player1Score = ''
+    }
+
+
+    if (this.props.player2RoundsArray.length !== 0) {
+      player2Score = this.props.player2RoundsArray.reduce(function getSum(total, num) {
+      return total + num;})
+    } else {
+      player2Score = ''
+    }
+    // if (player1Score === NaN || player1Score === undefined ) {
+    //   let player1Score = ''
+    // }
+    // if (player2Score === NaN | player1Score === undefined) {
+    //   let player2Score = ''
+    // }
+
+    return `Player 1 Total Score:${player1Score}| Player 2 Total Score: ${player2Score}`
+
+  }
 
   render(){
     console.log(this.state.gameState)
+
+
+
+
+
     return (
       <div>
         <h1>Question Time!</h1>
         <h2>{this.state.count} second left</h2>
+        <h2 color="red">{this.displayCurrentPlayer()}</h2>
+        <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>
+        <h3>{this.getTotalScores()}</h3>
         <h3>{this.props.question}</h3>
-        {this.state.shuffled.map(answer => <button disabled={this.state.gameState == 1 ? true : false} onClick={this.props.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+        {this.state.shuffled.map(answer => <button disabled={this.state.gameState == 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
       </div>
     )
   }

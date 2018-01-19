@@ -1,5 +1,6 @@
 import React from 'react';
 import QuestionContent from '../components/QuestionContent';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 class QuestionContainer extends React.Component {
 
@@ -10,7 +11,8 @@ class QuestionContainer extends React.Component {
       currentQuestion: 0,
       currentRound: 1,
       player1RoundsArray: [],
-      player2RoundsArray: []
+      player2RoundsArray: [],
+      showGameOverScreen: false
     }
   }
 
@@ -67,19 +69,7 @@ class QuestionContainer extends React.Component {
     }))
   }
 
-  guess = (event) => {
 
-    if (event.target.name === "correct") {
-      alert("right!")
-      //points, etc.
-      this.nextQuestion()
-    }else {
-      alert("wrong!")
-      
-      //slops
-    }
-
-  }
 
   nextQuestion = () => {
     //are we at the end?  if so next round
@@ -91,21 +81,49 @@ class QuestionContainer extends React.Component {
     }
   }
 
+  gameOver = () => {
+
+    this.setState({
+      currentRound: this.state.currentRound = 1, showGameOverScreen: true})
+  }
+
+
   nextRound = () => {
     if (this.state.currentRound === 3) {
-      alert("game over!")
-      //call game over function
-    } else {
-      this.setState({currentRound: this.state.currentRound + 1}, () => this.getQuestions())
-    }
 
+      this.setState({
+        currentRound: this.state.currentRound + 1}, () => this.gameOver())
+    } else {
+
+      this.setState({
+        currentRound: this.state.currentRound + 1}, () => this.getQuestions())
+    }
   }
+
+  updateScore = (score1, score2) => {
+    console.log("updating total score", score1, score2)
+    this.setState({
+      player1RoundsArray: [...this.state.player1RoundsArray, score1],
+      player2RoundsArray: [...this.state.player2RoundsArray, score2]
+    }, () => console.log("updated total score", this.state.player1RoundsArray, this.state.player2RoundsArray))
+  }
+
 
 
 
   render () {
     console.log(this.state.questions)
 
+
+    if (this.state.showGameOverScreen) {
+      this.setState({showGameOverScreen: false})
+      return <Redirect to={{
+        pathname: '/gameover',
+        state: { player1RoundsArray: this.state.player1RoundsArray,
+        player2RoundsArray: this.state.player2RoundsArray}
+       }
+      } />
+    }
 
 
 
@@ -114,7 +132,7 @@ class QuestionContainer extends React.Component {
     return (
       <div>
         <h3>Current Round {this.state.currentRound}</h3>
-        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess}/> : 'Loading'}
+        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray}/> : 'Loading'}
       </div>
     )
   }

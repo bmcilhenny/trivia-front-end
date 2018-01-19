@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import QuestionContainer from './containers/QuestionContainer';
 import Navbar from './Navbar';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 class App extends Component {
   render() {

@@ -12,7 +12,10 @@ class QuestionContainer extends React.Component {
       currentRound: 1,
       player1RoundsArray: [],
       player2RoundsArray: [],
-      showGameOverScreen: false
+      showGameOverScreen: false,
+      game_id: null,
+      player1_id: null,
+      player2_id: null
     }
   }
 

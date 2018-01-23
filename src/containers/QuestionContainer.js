@@ -13,7 +13,9 @@ class QuestionContainer extends React.Component {
       player1RoundsArray: [],
       player2RoundsArray: [],
       showGameOverScreen: false,
-      category: ''
+      category1: '',
+      category2: '',
+      category3: ''
     }
   }
 
@@ -67,17 +69,28 @@ class QuestionContainer extends React.Component {
     .then(results => this.removeWeirdEncoding(results))
     .then(cleanedResults => this.setState({
       questions: cleanedResults, currentQuestion: 0
-    }))
+    }, this.setRoundCategory))
   }
 
-  // category: cleanedResults[0].category
+  setRoundCategory = () => {
+    console.log("setting the category")
+    if (this.state.questions[0] === undefined) {
+      return
+    } else {
+      switch (this.state.currentRound) {
+        case 1:
+          this.setState({category1: this.state.questions[0].category})
+          break;
+        case 2:
+          this.setState({category2: this.state.questions[0].category})
+          break;
+        case 3:
+          this.setState({category3: this.state.questions[0].category})
+          break;
+      }
+    }
+  }
 
-
-
-
-
-  //are we at the end?  if so next round
-  //otherwise load up next Q and re-render
   nextQuestion = () => {
     if (this.state.currentQuestion === 9) {
       this.nextRound()
@@ -88,7 +101,6 @@ class QuestionContainer extends React.Component {
 
   //post the rounds to the db, then show the gameover screen and reset the state of current round to 1
   gameOver = () => {
-    this.saveRound();
     this.setState({
       currentRound: this.state.currentRound = 1, showGameOverScreen: true})
   }
@@ -98,7 +110,7 @@ class QuestionContainer extends React.Component {
     if (this.state.currentRound === 3) {
 
       this.setState({
-        currentRound: this.state.currentRound + 1}, () => this.gameOver())
+        currentRound: this.state.currentRound + 1})
     } else {
 
       this.setState({
@@ -114,9 +126,8 @@ class QuestionContainer extends React.Component {
         "user2_id": this.props.user2Id,
         "user2_score": this.state.player2RoundsArray[i],
         "game_id": this.props.gameId,
-        "category": this.state.category
+        "category": this.state[`category${i +1}`]
       }
-
       fetch('http://localhost:3000/api/v1/rounds', {
         method: "POST",
         headers: {
@@ -127,13 +138,15 @@ class QuestionContainer extends React.Component {
       }).then(resp => resp.json())
       .then(results => console.log(results))
     })
+    this.setState({
+      currentRound: this.state.currentRound = 1, showGameOverScreen: true})
   }
 
   updateScore = (score1, score2) => {
     this.setState({
       player1RoundsArray: [...this.state.player1RoundsArray, score1],
       player2RoundsArray: [...this.state.player2RoundsArray, score2]
-    }, () => console.log("updated total score", this.state.player1RoundsArray, this.state.player2RoundsArray))
+    }, () => this.state.currentRound === 4 ? this.saveRound() : null )
   }
 
 
@@ -144,7 +157,14 @@ class QuestionContainer extends React.Component {
       return <Redirect to={{
         pathname: '/gameover',
         state: { player1RoundsArray: this.state.player1RoundsArray,
-        player2RoundsArray: this.state.player2RoundsArray}
+        player2RoundsArray: this.state.player2RoundsArray,
+        gameId: this.props.gameId,
+        user1Id: this.props.user1Id,
+        user2Id: this.props.user2Id,
+        category1: this.state.category1,
+        category2: this.state.category2,
+        category3: this.state.category3
+       }
        }
       } />
     }
@@ -153,7 +173,7 @@ class QuestionContainer extends React.Component {
     return (
       <div>
         <h3>Current Round {this.state.currentRound}</h3>
-        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray}/> : 'Loading'}
+        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
       </div>
     )
   }

@@ -54,10 +54,15 @@ class QuestionContent extends React.Component {
   componentWillUpdate() {
     if (this.state.count === 0) {
       this.setState({
-        count: 0,
-        gameState: 1
-      }, this.props.nextQuestion)
-      this.updateBuzzer();
+        showAnswer: true,
+        gameState: 5
+      }, this.showAnswerTimeOut)
+
+//previous working code:
+      // this.setState({
+      //   gameState: 1
+      // }, this.props.nextQuestion)
+      // this.updateBuzzer();
       // this.cleanUpCount();
     }
   }

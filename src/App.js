@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import GameOver from './components/GameOver';
 import QuestionContent from './components/QuestionContent';
 import StartGame from './components/StartGame'
+import EditUser from './components/EditUser'
+import NewUser from './components/NewUser'
 
 
 class App extends Component {
@@ -38,6 +40,8 @@ class App extends Component {
       <Router>
           <div>
             <Route exact path="/gameover" component={GameOver} />
+            <Route exact path="/new" component={NewUser} />
+            <Route exact path="/edit" component={EditUser} />
             <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
             <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
           </div>

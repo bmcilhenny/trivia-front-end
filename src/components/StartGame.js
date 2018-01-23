@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import LeaderBoard from './LeaderBoard'
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class StartGame extends React.Component {
       timer: null,
       players: [],
       player1Select: "",
-      player2Select: ""
+      player2Select: "",
+      leaderboard: []
     }
   }
 
@@ -20,6 +22,10 @@ class StartGame extends React.Component {
     fetch('http://localhost:3000/api/v1/users')
     .then(resp => resp.json())
     .then(json => this.setState({players: json}))
+
+    fetch('http://localhost:3000/api/v1/leaderboard')
+    .then(resp => resp.json())
+    .then(json => this.setState({leaderboard: json}))
   }
 
   //change the displayCount boolean to true, then start the 5 second counter. Once 5 seconds have passed, redirect to the /gametime path
@@ -67,6 +73,12 @@ class StartGame extends React.Component {
     return (
       <div>
         <h1>Welcome</h1>
+        <Link to="/new">
+          <button>New User</button>
+        </Link>
+        <Link to="/edit">
+          <button>Edit/Delete a User</button>
+        </Link>
         <label>Select Player 1</label>
         <select value={this.state.player1Select} onChange={this.handlePlayer1Select}>
           <option value={''}>Select Your Player</option>
@@ -80,6 +92,7 @@ class StartGame extends React.Component {
         <br/>
         <button onClick={this.handleClick}>Start a Game</button>
         <h1>{this.state.displayCount ? counter : ''}</h1>
+        <LeaderBoard leaderboard={this.state.leaderboard} />
       </div>
     )
   }

@@ -15,21 +15,24 @@ class StartGame extends React.Component {
     }
   }
 
+  //grab the players from the database and set the players array in state to the db's list of players
   componentDidMount(){
     fetch('http://localhost:3000/api/v1/users')
     .then(resp => resp.json())
     .then(json => this.setState({players: json}))
   }
 
+  //change the displayCount boolean to true, then start the 5 second counter. Once 5 seconds have passed, redirect to the /gametime path
   delayStartGame = () => {
     this.setState({
       displayCount: true,
       timer: window.setInterval(() => this.setState({counter: this.state.counter -1}), 1000)});
-    setTimeout(function () {
-       window.location.href = "/gametime";
+    setTimeout( () => {
+       this.props.routerProps.history.push("/gametime");
     }, 5000);
   }
 
+  // if same player is chosen, stop from moving forward. Else post the game to the database with the relevant users, start the 5 second counter
   handleClick = () => {
     if (this.state.player1Select === this.state.player2Select || this.state.player1Select === '' || this.state.player2Select === '') {
       alert("choose different players");
@@ -48,8 +51,9 @@ class StartGame extends React.Component {
 
   }
 
+  //update the state to reflect the selected player for player 1, same thing for player 2
   handlePlayer1Select = (event) => {
-    this.setState({player1Select: event.target.value}, () => console.log(this.state.player1Select))
+    this.setState({player1Select: event.target.value})
   }
   handlePlayer2Select = (event) => {
     this.setState({player2Select: event.target.value})
@@ -57,8 +61,8 @@ class StartGame extends React.Component {
 
 
 
-
   render() {
+    console.log("Router Props", this.props)
     let counter = this.state.counter
     return (
       <div>
@@ -66,12 +70,12 @@ class StartGame extends React.Component {
         <label>Select Player 1</label>
         <select value={this.state.player1Select} onChange={this.handlePlayer1Select}>
           <option value={''}>Select Your Player</option>
-          {this.state.players.map(player => <option value={player.id}>{player.name}</option>)}
+          {this.state.players.map(player => <option value={player.id} key={player.id}>{player.name}</option>)}
         </select>
         <label>Select Player 2</label>
         <select value={this.state.player2Select} onChange={this.handlePlayer2Select}>
           <option value={''}>Select Your Player</option>
-          {this.state.players.map(player => <option value={player.id}>{player.name}</option>)}
+          {this.state.players.map(player => <option value={player.id} key={player.id}>{player.name}</option>)}
         </select>
         <br/>
         <button onClick={this.handleClick}>Start a Game</button>
@@ -79,8 +83,6 @@ class StartGame extends React.Component {
       </div>
     )
   }
-
-
 }
 
 

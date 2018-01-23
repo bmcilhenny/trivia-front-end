@@ -217,14 +217,14 @@ class QuestionContent extends React.Component {
     return `Player 1 Total Score:${player1Score}| Player 2 Total Score: ${player2Score}`
   }
 
+  // displays current player, maps over all of the randomized answer buttons and once clicked disables them
     gameOn = () => {
-
       return (
         <div>
           <h2>{this.state.count} second left</h2>
           <h2 color="red">{this.displayCurrentPlayer()}</h2>
           <h3>{this.props.question}</h3>
-          {this.state.shuffled.map(answer => <button disabled={this.state.gameState == 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+          {this.state.shuffled.map(answer => <button key={answer} disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
       </div>
       )
     }
@@ -239,10 +239,7 @@ class QuestionContent extends React.Component {
   }
 
   render(){
-    console.log(this.state.gameState)
-
     return (
-
       <div>
         <h1>Question Time!</h1>
         <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>

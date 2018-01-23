@@ -28,13 +28,18 @@ class App extends Component {
     }, () => console.log(this.state))
   }
 
+  componentDidMount() {
+    console.log("Mounting ", this.state)
+  }
+
   render() {
+    console.log(this.state);
     return (
       <Router>
           <div>
             <Route exact path="/gameover" component={GameOver} />
-            <Route exact path="/startgame" render={ () => < StartGame setUpGame={this.setUpGame} />} />
-            <Route exact path="/gametime" render={ () => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} />} />
+            <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
+            <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
           </div>
 
       </Router>

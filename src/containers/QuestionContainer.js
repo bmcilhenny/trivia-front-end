@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 class QuestionContainer extends React.Component {
 
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       questions: [],
       currentQuestion: 0,
@@ -13,9 +13,6 @@ class QuestionContainer extends React.Component {
       player1RoundsArray: [],
       player2RoundsArray: [],
       showGameOverScreen: false,
-      game_id: null,
-      player1_id: null,
-      player2_id: null,
       category: ''
     }
   }
@@ -24,18 +21,7 @@ class QuestionContainer extends React.Component {
     this.getQuestions();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setStateWithGameInfo(nextProps);
-  }
-
-  setStateWithGameInfo(nextProps) {
-    this.setState({
-      game_id: nextProps.gameId,
-      player1_id: nextProps.user1Id,
-      player2_id: nextProps.user2Id,
-    }, () => console.log(this.state))
-  }
-
+  //the api comes with weird encoding for special characters, removes that weird encoding
   removeWeirdEncoding = (json) => {
     json.forEach(question => {
       question.question = question.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
@@ -47,11 +33,11 @@ class QuestionContainer extends React.Component {
     return json;
   }
 
-
-
+  // based on the current Round grabs 10 questions with the appropriate difficulty (Round 1: easy, Round 2: medium, Round 3: hard)
+  // if there is a bad response code from the api regrab the questions
+  //then set the state of Questions to the cleaned questions
   getQuestions = () => {
-
-    let currentDifficulty
+    let currentDifficulty;
     switch (this.state.currentRound) {
       case 1:
         currentDifficulty = "easy"
@@ -64,8 +50,7 @@ class QuestionContainer extends React.Component {
         break;
     }
 
-    let randomCategory = Math.floor(Math.random() * (32 - 9 + 1)) + 9
-    console.log("calling API with", randomCategory, currentDifficulty)
+    let randomCategory = Math.floor(Math.random() * (32 - 9 + 1)) + 9;
 
     let myBody = {difficulty: currentDifficulty, category: randomCategory};
     fetch('http://localhost:3000/api/v1/get_questions', {
@@ -91,16 +76,17 @@ class QuestionContainer extends React.Component {
 
 
 
+  //are we at the end?  if so next round
+  //otherwise load up next Q and re-render
   nextQuestion = () => {
-    //are we at the end?  if so next round
-    //otherwise load up next Q and re-render
     if (this.state.currentQuestion === 9) {
       this.nextRound()
-    } else{
+    } else {
       this.setState({currentQuestion: this.state.currentQuestion + 1})
     }
   }
 
+  //post the rounds to the db, then show the gameover screen and reset the state of current round to 1
   gameOver = () => {
     this.saveRound();
     this.setState({
@@ -121,15 +107,13 @@ class QuestionContainer extends React.Component {
   }
 
   saveRound = () => {
-    console.log("Inside the save round:", this.state)
     this.state.player1RoundsArray.forEach((score, i) => {
-      console.log(this.state.player1_id, this.state.player2_id, this.state.game_id)
       let myBody = {
-        "user1_id": this.state.player1_id,
+        "user1_id": this.props.user1Id,
         "user1_score": score,
-        "user2_id": this.state.player2_id,
+        "user2_id": this.props.user2Id,
         "user2_score": this.state.player2RoundsArray[i],
-        "game_id": this.state.game_id,
+        "game_id": this.props.gameId,
         "category": this.state.category
       }
 
@@ -142,12 +126,10 @@ class QuestionContainer extends React.Component {
         body: JSON.stringify(myBody)
       }).then(resp => resp.json())
       .then(results => console.log(results))
-
     })
   }
 
   updateScore = (score1, score2) => {
-    // console.log("updating total score", score1, score2)
     this.setState({
       player1RoundsArray: [...this.state.player1RoundsArray, score1],
       player2RoundsArray: [...this.state.player2RoundsArray, score2]
@@ -156,9 +138,7 @@ class QuestionContainer extends React.Component {
 
 
   render () {
-    // console.log(this.state.questions)
-
-
+    console.log("Question container", this.state, this.props)
     if (this.state.showGameOverScreen) {
       this.setState({showGameOverScreen: false})
       return <Redirect to={{
@@ -168,7 +148,6 @@ class QuestionContainer extends React.Component {
        }
       } />
     }
-
 
     const currentQuestion = this.state.currentQuestion;
     return (

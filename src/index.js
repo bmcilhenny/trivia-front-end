@@ -8,11 +8,4 @@ import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
-ReactDOM.render((<Router>
-    <div>
-      <Route exact path="/" component={App} />
-      <Route exact path="/gameover" component={GameOver} />
-      <Route exact path="/startgame" component={StartGame} />
-    </div>
-
-  </Router>), document.getElementById('root'));
+ReactDOM.render(< App />, document.getElementById('root'));

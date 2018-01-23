@@ -13,7 +13,7 @@ const GameOver = (props) => {
         return total + num;
         })
     }</h2>
-  <Link to="/"><button>Play Again?</button></Link>
+  <Link to="/gametime"><button>Play Again?</button></Link>
   <Link to="/startgame"><button>Main Menu</button></Link>
 
     </div>)

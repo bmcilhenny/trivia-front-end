@@ -26,15 +26,15 @@ class StartGame extends React.Component {
       displayCount: true,
       timer: window.setInterval(() => this.setState({counter: this.state.counter -1}), 1000)});
     setTimeout(function () {
-       window.location.href = "/";
+       window.location.href = "/gametime";
     }, 5000);
   }
 
   handleClick = () => {
-    if (this.state.player1Select === this.state.player2Select) {
-      alert("choose different players")
+    if (this.state.player1Select === this.state.player2Select || this.state.player1Select === '' || this.state.player2Select === '') {
+      alert("choose different players");
     } else {
-      myBody: {user1_id: this.state.player1Select, user2_id: this.state.player2Select}
+      let myBody = {"user1_id": this.state.player1Select, "user2_id": this.state.player2Select}
       fetch('http://localhost:3000/api/v1/games', {
         method: "POST",
         headers: {
@@ -43,7 +43,7 @@ class StartGame extends React.Component {
         },
         body: JSON.stringify(myBody)
       }).then(resp => resp.json())
-      .then(json => console.log(json); this.delayStartGame())
+      .then(json => {console.log(json); this.props.setUpGame(json); this.delayStartGame()})
     }
 
   }
@@ -59,17 +59,18 @@ class StartGame extends React.Component {
 
 
   render() {
-    console.log(this.state.counter)
     let counter = this.state.counter
     return (
       <div>
         <h1>Welcome</h1>
         <label>Select Player 1</label>
         <select value={this.state.player1Select} onChange={this.handlePlayer1Select}>
+          <option value={''}>Select Your Player</option>
           {this.state.players.map(player => <option value={player.id}>{player.name}</option>)}
         </select>
         <label>Select Player 2</label>
         <select value={this.state.player2Select} onChange={this.handlePlayer2Select}>
+          <option value={''}>Select Your Player</option>
           {this.state.players.map(player => <option value={player.id}>{player.name}</option>)}
         </select>
         <br/>

@@ -15,12 +15,25 @@ class QuestionContainer extends React.Component {
       showGameOverScreen: false,
       game_id: null,
       player1_id: null,
-      player2_id: null
+      player2_id: null,
+      category: ''
     }
   }
 
   componentDidMount(){
-    this.getQuestions()
+    this.getQuestions();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setStateWithGameInfo(nextProps);
+  }
+
+  setStateWithGameInfo(nextProps) {
+    this.setState({
+      game_id: nextProps.gameId,
+      player1_id: nextProps.user1Id,
+      player2_id: nextProps.user2Id,
+    }, () => console.log(this.state))
   }
 
   removeWeirdEncoding = (json) => {
@@ -72,6 +85,10 @@ class QuestionContainer extends React.Component {
     }))
   }
 
+  // category: cleanedResults[0].category
+
+
+
 
 
   nextQuestion = () => {
@@ -85,7 +102,7 @@ class QuestionContainer extends React.Component {
   }
 
   gameOver = () => {
-
+    this.saveRound();
     this.setState({
       currentRound: this.state.currentRound = 1, showGameOverScreen: true})
   }
@@ -101,6 +118,32 @@ class QuestionContainer extends React.Component {
       this.setState({
         currentRound: this.state.currentRound + 1}, () => this.getQuestions())
     }
+  }
+
+  saveRound = () => {
+    console.log("Inside the save round:", this.state)
+    this.state.player1RoundsArray.forEach((score, i) => {
+      console.log(this.state.player1_id, this.state.player2_id, this.state.game_id)
+      let myBody = {
+        "user1_id": this.state.player1_id,
+        "user1_score": score,
+        "user2_id": this.state.player2_id,
+        "user2_score": this.state.player2RoundsArray[i],
+        "game_id": this.state.game_id,
+        "category": this.state.category
+      }
+
+      fetch('http://localhost:3000/api/v1/rounds', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(myBody)
+      }).then(resp => resp.json())
+      .then(results => console.log(results))
+
+    })
   }
 
   updateScore = (score1, score2) => {

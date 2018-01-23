@@ -30,12 +30,12 @@ class QuestionContent extends React.Component {
 
   startBuzzer = () => {
       window.addEventListener('keydown', this.handleBuzzIn);
-      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
+      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 200)});
   }
 
   updateBuzzer = () => {
     clearInterval(this.state.timer)
-    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
+    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 200)});
   }
 
 

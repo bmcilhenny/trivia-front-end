@@ -30,10 +30,10 @@ class EditUser extends React.Component {
       },
       body: JSON.stringify(myBody)
     }).then(resp => resp.json()).
-    then(json => console.log(json))
-  } else {
+    then(json => {console.log(json); this.props.routerProps.history.push("/startgame")})
+    } else {
     alert("fill it out")
-  }
+    }
   }
 
 
@@ -50,7 +50,7 @@ class EditUser extends React.Component {
         <button type="submit" >Submit</button>
       </form>
       <Link to="/startgame">
-        <button>Back to Start Game Page</button>
+        <button >Back to Start Game Page</button>
       </Link>
     </div>)
   }

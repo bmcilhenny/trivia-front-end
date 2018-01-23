@@ -40,8 +40,8 @@ class App extends Component {
       <Router>
           <div>
             <Route exact path="/gameover" component={GameOver} />
-            <Route exact path="/new" component={NewUser} />
-            <Route exact path="/edit" component={EditUser} />
+            <Route exact path="/new" render={ (routerProps) => < NewUser routerProps={routerProps} />} />
+            <Route exact path="/edit" render={ (routerProps) => < EditUser routerProps={routerProps} />} />
             <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
             <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
           </div>

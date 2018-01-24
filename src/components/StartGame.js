@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 import LeaderBoard from './LeaderBoard';
-import {Header} from "semantic-ui-react";
+import {Header, Segment, Divider, Icon, Button, Container, Dropdown} from "semantic-ui-react";
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class StartGame extends React.Component {
       players: [],
       player1Select: "",
       player2Select: "",
-      leaderboard: []
+      leaderboard: [],
+      activeItem: 'home'
     }
   }
 
@@ -59,42 +60,69 @@ class StartGame extends React.Component {
   }
 
   //update the state to reflect the selected player for player 1, same thing for player 2
-  handlePlayer1Select = (event) => {
-    this.setState({player1Select: event.target.value})
-  }
-  handlePlayer2Select = (event) => {
-    this.setState({player2Select: event.target.value})
+  handlePlayer1Select = (event, data) => {
+    this.setState({player1Select: data.value});
   }
 
+  handlePlayer2Select = (event, data) => {
+    this.setState({player2Select: data.value})
+  }
+
+  // this function is required to populate the Dropdown Semantic component with "options"
+  createOptionsForForm = () => {
+    let newArr = []
+    this.state.players.forEach(el => newArr.push(Object.assign({text: el.name, key: el.id, value: el.id})))
+    return newArr;
+}
 
 
   render() {
-
-
-    let counter = this.state.counter
+    let counter = this.state.counter;
+    console.log(this.state)
     return (
       <div>
-        <Header as='h1'>Welcome</Header>
-        <Link to="/new">
-          <button>New User</button>
-        </Link>
-        <Link to="/edit">
-          <button>Edit/Delete a User</button>
-        </Link>
-        <label>Select Player 1</label>
-        <select value={this.state.player1Select} onChange={this.handlePlayer1Select}>
-          <option value={''}>Select Your Player</option>
-          {this.state.players.map(player => <option value={player.id} key={player.id}>{player.name}</option>)}
-        </select>
-        <label>Select Player 2</label>
-        <select value={this.state.player2Select} onChange={this.handlePlayer2Select}>
-          <option value={''}>Select Your Player</option>
-          {this.state.players.map(player => <option value={player.id} key={player.id}>{player.name}</option>)}
-        </select>
-        <br/>
-        <button onClick={this.handleClick}>Start a Game</button>
-        <h1>{this.state.displayCount ? counter : ''}</h1>
-        <LeaderBoard leaderboard={this.state.leaderboard} />
+        <div>
+          <Header as='h1'>Welcome</Header>
+          <Link to="/new">
+            <button>New User</button>
+          </Link>
+          <Link to="/edit">
+            <button>Edit/Delete a User</button>
+          </Link>
+          <Dropdown
+            onChange={this.handlePlayer1Select}
+            options={this.createOptionsForForm()}
+            placeholder='Select Player 1'
+            selection
+            value={this.state.player1Select}
+          />
+          <Dropdown
+            onChange={this.handlePlayer2Select}
+            options={this.createOptionsForForm()}
+            placeholder='Select Player 2'
+            selection
+            value={this.state.player2Select}
+          />
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <Container>
+            <Button animated='fade' onClick={this.handleClick} color="black">
+              <Button.Content visible>
+                Start a Game
+              </Button.Content>
+              <Button.Content hidden>
+                Let's Get Sloppy
+              </Button.Content>
+            </Button>
+          </Container>
+          <h1>{this.state.displayCount ? counter : ''}</h1>
+          <Segment>
+            <Divider horizontal>LeaderBoard</Divider>
+          </Segment>
+          <LeaderBoard leaderboard={this.state.leaderboard} />
+        </div>
       </div>
     )
   }

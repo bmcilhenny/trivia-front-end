@@ -1,22 +1,27 @@
-import React from 'react'
+import React from 'react';
+import { Table } from 'semantic-ui-react';
 
 const LeaderBoard = (props) => {
 
   return (
-    <table>
-  <tr>
-    <th>Name</th>
-    <th>Total Score</th>
-    <th>Best Category</th>
-  </tr>
+    <Table celled color="gray" key="gray">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Total Score</Table.HeaderCell>
+          <Table.HeaderCell>Best Category</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
       {props.leaderboard.map((entry) =>
-        <tr>
-          <td>{entry[0]}</td>
-          <td>{entry[1]}</td>
-          <td>{entry[2]}</td>
-        </tr>
+        <Table.Row>
+          <Table.Cell>{entry[0]}</Table.Cell>
+          <Table.Cell>{entry[1]}</Table.Cell>
+          <Table.Cell>{entry[2]}</Table.Cell>
+        </Table.Row>
        )}
-    </table>
+      </Table.Body>
+    </Table>
   )
 
 

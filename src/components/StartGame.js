@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
-import LeaderBoard from './LeaderBoard'
+import LeaderBoard from './LeaderBoard';
+import {Header} from "semantic-ui-react";
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -68,11 +69,12 @@ class StartGame extends React.Component {
 
 
   render() {
-    console.log("Router Props", this.props)
+
+
     let counter = this.state.counter
     return (
       <div>
-        <h1>Welcome</h1>
+        <Header as='h1'>Welcome</Header>
         <Link to="/new">
           <button>New User</button>
         </Link>

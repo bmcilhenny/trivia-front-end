@@ -1,6 +1,9 @@
 import React from 'react';
 import QuestionContent from '../components/QuestionContent';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Header, Icon, Image, Segment } from 'semantic-ui-react';
+
+
 
 class QuestionContainer extends React.Component {
 
@@ -172,9 +175,13 @@ class QuestionContainer extends React.Component {
     const currentQuestion = this.state.currentQuestion;
     return (
       <div>
-        <h3>Current Round {this.state.currentRound}</h3>
+        <Header as='h2' icon textAlign='center'>
+          <Icon name='university' circular />
+        </Header>
+        <Segment style={{minHeight: 300}}>
         {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
-      </div>
+        </Segment>
+    </div>
     )
   }
 }

@@ -1,6 +1,6 @@
-
-
 import React from 'react';
+import { Header, Icon, Image, Segment, Grid, Container } from 'semantic-ui-react';
+
 
 class QuestionContent extends React.Component {
 
@@ -225,21 +225,22 @@ class QuestionContent extends React.Component {
   // displays current player, maps over all of the randomized answer buttons and once clicked disables them
     gameOn = () => {
       return (
-        <div>
+        <Segment style={{minHeight: 300}}>
           <h2>{this.state.count} second left</h2>
           <h2 color="red">{this.displayCurrentPlayer()}</h2>
           <h3>{this.props.question}</h3>
-          {this.state.shuffled.map(answer => <button key={answer} disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
-      </div>
+          {this.state.shuffled.map(answer => <button key={answer} className="positive ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+      </Segment>
       )
     }
 
 
    showAnswer = () => {
     return (
-      <div>
-        <h2>The correct answer was: {this.props.correctAnswer}</h2>
-      </div>
+      <Segment style={{minHeight: 300}}>
+
+        <Container><h2>The correct answer was: {this.props.correctAnswer}</h2></Container>
+    </Segment>
     )
   }
 
@@ -250,6 +251,7 @@ class QuestionContent extends React.Component {
         <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>
         <h3>{this.getTotalScores()}</h3>
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
+
       </div>
     )
   }

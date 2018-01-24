@@ -6,9 +6,10 @@ import Navbar from './Navbar';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import GameOver from './components/GameOver';
 import QuestionContent from './components/QuestionContent';
-import StartGame from './components/StartGame'
-import EditUser from './components/EditUser'
+import StartGame from './components/StartGame';
+import EditUser from './components/EditUser';
 import NewUser from './components/NewUser'
+import { Container } from 'semantic-ui-react';
 
 
 class App extends Component {
@@ -38,14 +39,13 @@ class App extends Component {
     console.log(this.state);
     return (
       <Router>
-          <div>
+          <Container textAlign="center">
             <Route exact path="/gameover" component={GameOver} />
             <Route exact path="/new" render={ (routerProps) => < NewUser routerProps={routerProps} />} />
             <Route exact path="/edit" render={ (routerProps) => < EditUser routerProps={routerProps} />} />
             <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
             <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
-          </div>
-
+          </Container>
       </Router>
     );
   }

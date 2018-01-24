@@ -3,3 +3,33 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+#bg-video {
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: -1;
+  width: 100%;
+}
+
+.jumbovidtext {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+}
+
+.jumbotron {
+  background: rgba(128,128,128,0.5);
+  margin: 25vh 0;
+  overflow-y: hidden;
+}
+
+main {
+  /* Give the main content container a solid background color to hide the fixed position video */
+  background: #fff;
+  padding: 2em;
+}
+
+.main-header {
+  font-size: 200% !important;
+}

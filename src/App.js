@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import QuestionContainer from './containers/QuestionContainer';
-import Navbar from './Navbar';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import GameOver from './components/GameOver';
 import QuestionContent from './components/QuestionContent';
@@ -38,15 +37,13 @@ class App extends Component {
   render() {
     console.log(this.state);
     return (
-      <Router>
-          <Container textAlign="center">
-            <Route exact path="/gameover" component={GameOver} />
-            <Route exact path="/new" render={ (routerProps) => < NewUser routerProps={routerProps} />} />
-            <Route exact path="/edit" render={ (routerProps) => < EditUser routerProps={routerProps} />} />
-            <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
-            <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
-          </Container>
-      </Router>
+      <div>
+        <Route exact path="/gameover" component={GameOver} />
+        <Route exact path="/new" render={ (routerProps) => < NewUser routerProps={routerProps} />} />
+        <Route exact path="/edit" render={ (routerProps) => < EditUser routerProps={routerProps} />} />
+        <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
+        <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
+      </div>
     );
   }
 }

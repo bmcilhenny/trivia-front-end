@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 import LeaderBoard from './LeaderBoard';
 import {Header, Segment, Divider, Icon, Button, Container, Dropdown} from "semantic-ui-react";
+import Jumbo from '../Jumbo';
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -81,8 +82,10 @@ class StartGame extends React.Component {
     console.log(this.state)
     return (
       <div>
+        <Jumbo handleClick={this.handleClick}/>
+
         <div>
-          <Header as='h1'>Welcome</Header>
+
           <Link to="/new">
             <button>New User</button>
           </Link>
@@ -103,20 +106,7 @@ class StartGame extends React.Component {
             selection
             value={this.state.player2Select}
           />
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <Container>
-            <Button animated='fade' onClick={this.handleClick} color="black">
-              <Button.Content visible>
-                Start a Game
-              </Button.Content>
-              <Button.Content hidden>
-                Let's Get Sloppy
-              </Button.Content>
-            </Button>
-          </Container>
+
           <h1>{this.state.displayCount ? counter : ''}</h1>
           <Segment>
             <Divider horizontal>LeaderBoard</Divider>
@@ -130,3 +120,15 @@ class StartGame extends React.Component {
 
 
 export default StartGame;
+
+// <Container>
+//   <Button animated='fade' onClick={this.handleClick} color="black">
+//     <Button.Content visible>
+//       Start a Game
+//     </Button.Content>
+//     <Button.Content hidden>
+//       Let's Get Sloppy
+//     </Button.Content>
+//   </Button>
+// </Container>
+//

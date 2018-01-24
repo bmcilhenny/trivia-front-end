@@ -1,6 +1,7 @@
 import React from 'react';
 import {Menu, Container, Button, Header, Icon, Dropdown, Segment} from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import LeaderBoard from './components/LeaderBoard';
 
 const Jumbo = (props) => {
   return (
@@ -54,6 +55,7 @@ const Jumbo = (props) => {
               value={props.player2Select}
             />
           </Segment>
+          <LeaderBoard leaderboard={props.leaderboard} />
       </Container>
     </div>
 

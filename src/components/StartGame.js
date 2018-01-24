@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom
 import LeaderBoard from './LeaderBoard';
 import {Header, Segment, Divider, Icon, Button, Container, Dropdown} from "semantic-ui-react";
 import Jumbo from '../Jumbo';
+import Sound from 'react-sound';
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class StartGame extends React.Component {
       player1Select: "",
       player2Select: "",
       leaderboard: [],
-      activeItem: 'home'
+      activeItem: 'home',
+      play: false,
+      theme: "PLAYING"
     }
   }
 
@@ -35,6 +38,8 @@ class StartGame extends React.Component {
   delayStartGame = () => {
     this.setState({
       displayCount: true,
+      play: "PLAYING",
+      theme: "FALSE",
       timer: window.setInterval(() => this.setState({counter: this.state.counter -1}), 1000)});
     setTimeout( () => {
        this.props.routerProps.history.push("/gametime");
@@ -82,10 +87,17 @@ class StartGame extends React.Component {
     console.log(this.state)
     return (
       <div>
-        <Jumbo handleClick={this.handleClick} displayCount={this.state.displayCount} counter={counter} onChange1={this.handlePlayer1Select} onChange2={this.handlePlayer2Select} createOptionsForForm={this.createOptionsForForm} player1Select={this.state.player1Select} player2Select={this.state.player2Select}/>
-        <div>
-          <LeaderBoard leaderboard={this.state.leaderboard} />
-        </div>
+        <Jumbo handleClick={this.handleClick} displayCount={this.state.displayCount} counter={counter} onChange1={this.handlePlayer1Select} onChange2={this.handlePlayer2Select} createOptionsForForm={this.createOptionsForForm} player1Select={this.state.player1Select} leaderboard={this.state.leaderboard} player2Select={this.state.player2Select}/>
+        <Sound
+          url="http://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Jeopardy+Board+SMS&filename=mj/Mjc4OTQ5Nzc4Mjc4OTI1_Da0o9hEwISM.MP3"
+          playStatus={this.state.play}
+          onFinishedPlaying={() => this.setState({play: false})}
+         />
+        <Sound
+          url='https://www.myinstants.com/media/sounds/jeopardy-theme-lowq.mp3'
+          playStatus={this.state.theme}
+          loop="true"
+         />
       </div>
     )
   }

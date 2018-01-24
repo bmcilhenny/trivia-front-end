@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react';
 const LeaderBoard = (props) => {
 
   return (
-    <Table celled color="gray" key="gray">
+    <Table celled color="gray" key="gray" striped selectable inverted style={{marginTop: "1em"}}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
@@ -28,4 +28,4 @@ const LeaderBoard = (props) => {
 }
 
 
-export default LeaderBoard
+export default LeaderBoard;

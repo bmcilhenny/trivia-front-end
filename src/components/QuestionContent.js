@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header, Icon, Image, Segment, Grid, Container } from 'semantic-ui-react';
+import Sound from 'react-sound';
 
 
 class QuestionContent extends React.Component {
@@ -16,7 +17,8 @@ class QuestionContent extends React.Component {
       player1RoundScore: 0,
       player2RoundScore: 0,
       showAnswer: false,
-      correctAnswer: ''
+      correctAnswer: '',
+      play: false
     }
   }
 
@@ -30,12 +32,12 @@ class QuestionContent extends React.Component {
 
   startBuzzer = () => {
       window.addEventListener('keydown', this.handleBuzzIn);
-      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 200)});
+      this.setState({timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
   }
 
   updateBuzzer = () => {
     clearInterval(this.state.timer)
-    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 200)});
+    this.setState({count: 10, timer: window.setInterval(() => this.setState({count: this.state.count -1}), 1000)});
   }
 
 
@@ -83,12 +85,14 @@ class QuestionContent extends React.Component {
         this.setState({
           answeringPlayer: true,
           gameState: 2,
+          play: "PLAYING"
         })
       } else if (event.code === "ShiftRight") {
         this.updateBuzzer();
         this.setState({
           answeringPlayer: false,
           gameState: 2,
+          play: "PLAYING"
         })
       }
     }
@@ -239,7 +243,7 @@ class QuestionContent extends React.Component {
     gameOn = () => {
       return (
         <Container text textAlign='center'>
-          <Segment style={{height: 300, width: 650, background: "rgba(211, 211, 211, .9)"}}>
+          <Segment style={{height: 400, width: 650, background: "rgba(211, 211, 211, .9)"}}>
             <h2>{this.state.count} second left</h2>
             <h2 color="red">{this.displayCurrentPlayer()}</h2>
             <h3>{this.props.question}</h3>
@@ -254,7 +258,7 @@ class QuestionContent extends React.Component {
    showAnswer = () => {
     return (
       <Container text textAlign='center'>
-        <Segment style={{height: 300, width: 650, background: "rgba(211, 211, 211, .9)"}}>
+        <Segment style={{height: 400, width: 650, background: "rgba(211, 211, 211, .9)"}}>
           <Container ><h2 style={{"line-height": "250px"}}>The correct answer was: {this.props.correctAnswer}</h2></Container>
         </Segment>
       </Container>
@@ -275,6 +279,11 @@ class QuestionContent extends React.Component {
           <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>
         </Segment>
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
+        <Sound
+        url="https://www.myinstants.com/media/sounds/times-up.mp3"
+        playStatus={this.state.play}
+        onFinishedPlaying={() => this.setState({play: false})}
+        />
       </div>
     )
   }

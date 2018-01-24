@@ -29,11 +29,11 @@ class QuestionContainer extends React.Component {
   //the api comes with weird encoding for special characters, removes that weird encoding
   removeWeirdEncoding = (json) => {
     json.forEach(question => {
-      question.question = question.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-      question.correct_answer = question.correct_answer.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-      question.incorrect_answers[0] = question.incorrect_answers[0].replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-      question.incorrect_answers[1] = question.incorrect_answers[1].replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-      question.incorrect_answers[2] = question.incorrect_answers[2].replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+      question.question = question.question.replace(/&quot;|$ldquo;|&rdquo;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&").replace(/&egrave;/g, "è").replace(/&shy;/g, "").replace(/&aacute;/g, "á");
+      question.correct_answer = question.correct_answer.replace(/&quot;|$ldquo;|&rdquo;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&").replace(/&egrave;/g, "è").replace(/&shy;/g, "").replace(/&aacute;/g, "á");
+      question.incorrect_answers[0] = question.incorrect_answers[0].replace(/&quot;|$ldquo;|&rdquo;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&").replace(/&egrave;/g, "è").replace(/&shy;/g, "").replace(/&aacute;/g, "á");
+      question.incorrect_answers[1] = question.incorrect_answers[1].replace(/&quot;|$ldquo;|&rdquo;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&").replace(/&egrave;/g, "è").replace(/&shy;/g, "").replace(/&aacute;/g, "á");
+      question.incorrect_answers[2] = question.incorrect_answers[2].replace(/&quot;|$ldquo;|&rdquo;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&").replace(/&egrave;/g, "è").replace(/&shy;/g, "").replace(/&aacute;/g, "á");
     })
     return json;
   }
@@ -177,12 +177,12 @@ class QuestionContainer extends React.Component {
       <div>
         <Container>
                 <Menu  inverted pointing secondary size='large'>
-                  <Menu.Item as='a' active>Home</Menu.Item>
+                  <Menu.Item as={Link} to="startgame" active>Home</Menu.Item>
                   <Menu.Item as='a'>Careers</Menu.Item>
                   <Menu.Item as='a'>Add a Question</Menu.Item>
                   <Menu.Item as='a'>Api</Menu.Item>
                   <Menu.Item position='right'>
-                    <Button as={Link} to="new" inverted className={"white-link"}>Ass User</Button>
+                    <Button as={Link} to="new" inverted className={"white-link"}>Add User</Button>
                     <Button as={Link} to="edit" inverted style={{ marginLeft: '0.5em' }}>Edit User</Button>
                   </Menu.Item>
                 </Menu>
@@ -193,7 +193,7 @@ class QuestionContainer extends React.Component {
 
 
             {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
-      
+
     </div>
     )
   }

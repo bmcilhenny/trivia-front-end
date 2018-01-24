@@ -194,64 +194,87 @@ class QuestionContent extends React.Component {
     }
   }
 
-  getTotalScores = () => {
-    let player1Score = ''
-    let player2Score = ''
+  getPlayer1Total = () => {
+    let player1Score = '';
     if (this.props.player1RoundsArray.length !== 0) {
       player1Score = this.props.player1RoundsArray.reduce(function (total, num) {
           return total + num;
-          })
-    } else {
-      player1Score = ''
+      })
     }
-
-
-    if (this.props.player2RoundsArray.length !== 0) {
-      player2Score = this.props.player2RoundsArray.reduce(function getSum(total, num) {
-      return total + num;})
-    } else {
-      player2Score = ''
-    }
-    // if (player1Score === NaN || player1Score === undefined ) {
-    //   let player1Score = ''
-    // }
-    // if (player2Score === NaN | player1Score === undefined) {
-    //   let player2Score = ''
-    // }
-
-    return `Player 1 Total Score:${player1Score}| Player 2 Total Score: ${player2Score}`
+    return player1Score
   }
+
+  getPlayer2Total = () => {
+    let player2Score = '';
+    if (this.props.player2RoundsArray.length !== 0) {
+      player2Score = this.props.player2RoundsArray.reduce(function (total, num) {
+          return total + num;
+      })
+    }
+    return player2Score
+  }
+
+  // getTotalScores = () => {
+  //   let player1Score = ''
+  //   let player2Score = ''
+  //   if (this.props.player1RoundsArray.length !== 0) {
+  //     player1Score = this.props.player1RoundsArray.reduce(function (total, num) {
+  //         return total + num;
+  //         })
+  //   } else {
+  //     player1Score = ''
+  //   }
+  //
+  //
+  //   if (this.props.player2RoundsArray.length !== 0) {
+  //     player2Score = this.props.player2RoundsArray.reduce(function getSum(total, num) {
+  //     return total + num;})
+  //   } else {
+  //     player2Score = ''
+  //   }
+  //   return `Player 1 Total Score:${player1Score}| Player 2 Total Score: ${player2Score}`
+  // }
 
   // displays current player, maps over all of the randomized answer buttons and once clicked disables them
     gameOn = () => {
       return (
-        <Segment style={{minHeight: 300}}>
-          <h2>{this.state.count} second left</h2>
-          <h2 color="red">{this.displayCurrentPlayer()}</h2>
-          <h3>{this.props.question}</h3>
-          {this.state.shuffled.map(answer => <button key={answer} className="positive ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
-      </Segment>
+        <Container text textAlign='center'>
+          <Segment style={{height: 300, width: 650, background: "rgba(211, 211, 211, .9)"}}>
+            <h2>{this.state.count} second left</h2>
+            <h2 color="red">{this.displayCurrentPlayer()}</h2>
+            <h3>{this.props.question}</h3>
+            <br />
+            {this.state.shuffled.map(answer => <button key={answer} className="blue big ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+          </Segment>
+        </Container>
       )
     }
 
 
    showAnswer = () => {
     return (
-      <Segment style={{minHeight: 300}}>
-
-        <Container><h2>The correct answer was: {this.props.correctAnswer}</h2></Container>
-    </Segment>
+      <Container text textAlign='center'>
+        <Segment style={{height: 300, width: 650, background: "rgba(211, 211, 211, .9)"}}>
+          <Container ><h2 style={{"line-height": "250px"}}>The correct answer was: {this.props.correctAnswer}</h2></Container>
+        </Segment>
+      </Container>
     )
   }
 
   render(){
     return (
       <div>
-        <h1>Question Time!</h1>
-        <h3>Player 1 Current Round Score: {this.state.player1RoundScore} | Player 2 Current Round Score: {this.state.player2RoundScore} </h3>
-        <h3>{this.getTotalScores()}</h3>
+        <Segment text textAlign='center' style={{background: 0, border: 0}}>
+          <Header
+            as='h1'
+            content="Question Time"
+            inverted
+            style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '0.5em' }}
+          ></Header>
+          <Segment circular floated="left">Player 1 Current Round Score: {this.state.player1RoundScore}<p>Total: {this.getPlayer1Total()}</p></Segment>
+          <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>
+        </Segment>
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
-
       </div>
     )
   }

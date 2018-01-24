@@ -33,3 +33,12 @@ main {
 .main-header {
   font-size: 200% !important;
 }
+
+.white-link {
+  color: white
+}
+
+/* mouse over link */
+.white-link:hover {
+    color: black;
+}

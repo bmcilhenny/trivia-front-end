@@ -82,35 +82,8 @@ class StartGame extends React.Component {
     console.log(this.state)
     return (
       <div>
-        <Jumbo handleClick={this.handleClick}/>
-
+        <Jumbo handleClick={this.handleClick} displayCount={this.state.displayCount} counter={counter} onChange1={this.handlePlayer1Select} onChange2={this.handlePlayer2Select} createOptionsForForm={this.createOptionsForForm} player1Select={this.state.player1Select} player2Select={this.state.player2Select}/>
         <div>
-
-          <Link to="/new">
-            <button>New User</button>
-          </Link>
-          <Link to="/edit">
-            <button>Edit/Delete a User</button>
-          </Link>
-          <Dropdown
-            onChange={this.handlePlayer1Select}
-            options={this.createOptionsForForm()}
-            placeholder='Select Player 1'
-            selection
-            value={this.state.player1Select}
-          />
-          <Dropdown
-            onChange={this.handlePlayer2Select}
-            options={this.createOptionsForForm()}
-            placeholder='Select Player 2'
-            selection
-            value={this.state.player2Select}
-          />
-
-          <h1>{this.state.displayCount ? counter : ''}</h1>
-          <Segment>
-            <Divider horizontal>LeaderBoard</Divider>
-          </Segment>
           <LeaderBoard leaderboard={this.state.leaderboard} />
         </div>
       </div>
@@ -120,15 +93,3 @@ class StartGame extends React.Component {
 
 
 export default StartGame;
-
-// <Container>
-//   <Button animated='fade' onClick={this.handleClick} color="black">
-//     <Button.Content visible>
-//       Start a Game
-//     </Button.Content>
-//     <Button.Content hidden>
-//       Let's Get Sloppy
-//     </Button.Content>
-//   </Button>
-// </Container>
-//

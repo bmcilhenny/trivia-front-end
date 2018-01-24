@@ -1,7 +1,7 @@
 import React from 'react';
 import QuestionContent from '../components/QuestionContent';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { Header, Icon, Image, Segment } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { Header, Icon, Image, Segment, Container, Menu, Button } from 'semantic-ui-react';
 
 
 
@@ -175,12 +175,25 @@ class QuestionContainer extends React.Component {
     const currentQuestion = this.state.currentQuestion;
     return (
       <div>
-        <Header as='h2' icon textAlign='center'>
-          <Icon name='university' circular />
-        </Header>
-        <Segment style={{minHeight: 300}}>
-        {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
-        </Segment>
+        <Container>
+                <Menu  inverted pointing secondary size='large'>
+                  <Menu.Item as='a' active>Home</Menu.Item>
+                  <Menu.Item as='a'>Careers</Menu.Item>
+                  <Menu.Item as='a'>Add a Question</Menu.Item>
+                  <Menu.Item as='a'>Api</Menu.Item>
+                  <Menu.Item position='right'>
+                    <Button as={Link} to="new" inverted className={"white-link"}>Ass User</Button>
+                    <Button as={Link} to="edit" inverted style={{ marginLeft: '0.5em' }}>Edit User</Button>
+                  </Menu.Item>
+                </Menu>
+        </Container>
+        <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted">
+          <source src="https://10-lvl3-pdl.vimeocdn.com/01/4251/4/121257225/342565508.mp4?expires=1516812163&token=06aff2b8a111ae4b070f5" />
+        </video>
+
+
+            {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
+      
     </div>
     )
   }

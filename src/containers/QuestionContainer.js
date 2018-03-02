@@ -188,7 +188,7 @@ class QuestionContainer extends React.Component {
                 </Menu>
         </Container>
         <video id="bg-video" autoplay="true" loop="loop" preload="metadata" muted="muted">
-          <source src="https://10-lvl3-pdl.vimeocdn.com/01/4251/4/121257225/342565508.mp4?expires=1516812163&token=06aff2b8a111ae4b070f5" />
+          <source src="https://static.videezy.com/system/resources/previews/000/005/614/original/Bokeh_Pan.mp4" />
         </video>
 
 

@@ -275,6 +275,12 @@ class QuestionContent extends React.Component {
             inverted
             style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '0.5em' }}
           ></Header>
+          <Header
+            as='h2'
+            content=`Round ${this.props.currentRound}`
+            inverted
+            style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '0.5em' }}
+          ></Header>
           <Segment circular floated="left">Player 1 Current Round Score: {this.state.player1RoundScore}<p>Total: {this.getPlayer1Total()}</p></Segment>
           <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>
         </Segment>

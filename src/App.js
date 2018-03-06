@@ -42,11 +42,11 @@ class App extends Component {
     // debugger
     return (
       <div>
-        <Route exact path={`${process.env.PUBLIC_URL}/gameover`} component={GameOver} />
-        <Route exact path={`${process.env.PUBLIC_URL}/new`} render={ (routerProps) => < NewUser routerProps={routerProps} />} />
-        <Route exact path={`${process.env.PUBLIC_URL}/edit`} render={ (routerProps) => < EditUser routerProps={routerProps} />} />
-        <Route exact path={`${process.env.PUBLIC_URL}/`} render={ (routerProps) => < Home routerProps={routerProps} setUpGame={this.setUpGame} />} />
-        <Route exact path={`${process.env.PUBLIC_URL}/gametime`} render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
+        <Route exact path={`/gameover`} component={GameOver} />
+        <Route exact path={`/new`} render={ (routerProps) => < NewUser routerProps={routerProps} />} />
+        <Route exact path={`/edit`} render={ (routerProps) => < EditUser routerProps={routerProps} />} />
+        <Route exact path={`/`} render={ (routerProps) => < Home routerProps={routerProps} setUpGame={this.setUpGame} />} />
+        <Route exact path={`/gametime`} render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
       </div>
     );
   }

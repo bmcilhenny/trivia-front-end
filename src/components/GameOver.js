@@ -31,7 +31,7 @@ const GameOver = (props) => {
     <div>
       <Container>
         <Menu  inverted pointing secondary size='large'>
-          <Menu.Item as={Link} to="startgame" active>Home</Menu.Item>
+          <Menu.Item as={Link} to={`${process.env.PUBLIC_URL}/`} active>Home</Menu.Item>
           <Menu.Item as='a'>Careers</Menu.Item>
           <Menu.Item as='a'>Add a Question</Menu.Item>
           <Menu.Item as='a'>Api</Menu.Item>
@@ -72,7 +72,7 @@ const GameOver = (props) => {
         Play Again?
         <Icon name='right arrow' />
       </Button>
-      <Button secondary size='huge' as={Link} to="startgame">
+      <Button secondary size='huge' as={Link} to={`${process.env.PUBLIC_URL}/`}>
         Main Menu
         <Icon name='home' style={{marginLeft: "0.5em"}}/>
       </Button>

@@ -95,5 +95,5 @@ export default GameOver;
 //         })
 //     }</h2>
 //   <h2>Player 2's best Category: {bestCategory(props.location.state.player2RoundsArray)}</h2>
-//   <Link to="/startgame"><button>Play Again?</button></Link>
+//   <Link to="/"><button>Play Again?</button></Link>
 //     </div>

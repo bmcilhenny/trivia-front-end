@@ -5,10 +5,12 @@ import QuestionContainer from './containers/QuestionContainer';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import GameOver from './components/GameOver';
 import QuestionContent from './components/QuestionContent';
-import StartGame from './components/StartGame';
+import Home from './components/Home';
 import EditUser from './components/EditUser';
 import NewUser from './components/NewUser'
 import { Container } from 'semantic-ui-react';
+// let history = process.env.NODE_ENV === "production" ? hashHistory : browserHistory;
+
 
 
 class App extends Component {
@@ -36,13 +38,15 @@ class App extends Component {
 
   render() {
     console.log(this.state);
+    console.log("This is the process.env", process.env.PUBLIC_URL)
+    // debugger
     return (
       <div>
-        <Route exact path="/gameover" component={GameOver} />
-        <Route exact path="/new" render={ (routerProps) => < NewUser routerProps={routerProps} />} />
-        <Route exact path="/edit" render={ (routerProps) => < EditUser routerProps={routerProps} />} />
-        <Route exact path="/startgame" render={ (routerProps) => < StartGame routerProps={routerProps} setUpGame={this.setUpGame} />} />
-        <Route exact path="/gametime" render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
+        <Route exact path={`${process.env.PUBLIC_URL}/gameover`} component={GameOver} />
+        <Route exact path={`${process.env.PUBLIC_URL}/new`} render={ (routerProps) => < NewUser routerProps={routerProps} />} />
+        <Route exact path={`${process.env.PUBLIC_URL}/edit`} render={ (routerProps) => < EditUser routerProps={routerProps} />} />
+        <Route exact path={`${process.env.PUBLIC_URL}/`} render={ (routerProps) => < Home routerProps={routerProps} setUpGame={this.setUpGame} />} />
+        <Route exact path={`${process.env.PUBLIC_URL}/gametime`} render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
       </div>
     );
   }

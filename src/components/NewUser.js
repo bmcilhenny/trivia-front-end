@@ -32,7 +32,7 @@ class NewUser extends React.Component {
       },
       body: JSON.stringify(myBody)
     }).then(resp => resp.json()).
-    then(json => {console.log(json); this.props.routerProps.history.push("/startgame")})
+    then(json => {console.log(json); this.props.routerProps.history.push("/")})
     } else {
     alert("fill it out")
     }
@@ -75,7 +75,7 @@ class NewUser extends React.Component {
                 Submit
                 <Icon name='right arrow' />
               </Button>
-              <Button secondary size='huge' as={Link} to="startgame">
+              <Button secondary size='huge' as={Link} to="/">
                 Main Menu
                 <Icon name='home' style={{marginLeft: "0.5em"}}/>
               </Button>
@@ -101,7 +101,7 @@ export default NewUser;
 //     <input type="text" id="image" value={this.state.image} onChange={this.handleChange}/>
 //     <button type="submit" >Submit</button>
 //   </form>
-//   <Link to="/startgame">
+//   <Link to="/">
 //     <button >Back to Start Game Page</button>
 //   </Link>
 // </div>

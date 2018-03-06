@@ -6,7 +6,7 @@ import Jumbo from '../Jumbo';
 import Sound from 'react-sound';
 import {API_ROOT} from '../constants';
 
-class StartGame extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props)
 
@@ -105,4 +105,4 @@ class StartGame extends React.Component {
 }
 
 
-export default StartGame;
+export default Home;

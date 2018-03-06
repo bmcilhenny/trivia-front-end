@@ -62,7 +62,7 @@ class EditUser extends React.Component {
       body: JSON.stringify(myBody)
     })
       .then(resp => resp.json())
-      .then(json => {console.log(json); this.props.routerProps.history.push("/startgame")})
+      .then(json => {console.log(json); this.props.routerProps.history.push("/")})
   }
 
   deleteUser = event => {
@@ -73,7 +73,7 @@ class EditUser extends React.Component {
       "Content-Type": "application/json",
       "Accept": "application/json"
       }
-    }, () => this.props.routerProps.history.push("/startgame"))
+    }, () => this.props.routerProps.history.push("/"))
   }
 
   createOptionsForForm = () => {

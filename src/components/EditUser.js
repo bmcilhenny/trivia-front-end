@@ -1,6 +1,7 @@
 import React from 'react';
 import {Menu, Container, Button, Header, Icon, Dropdown, Segment, Form} from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { API_ROOT } from '../constants'
 
 class EditUser extends React.Component {
 
@@ -20,7 +21,7 @@ class EditUser extends React.Component {
   }
 
   grabUsers = () => {
-    fetch('http://localhost:3000/api/v1/users')
+    fetch(`${API_ROOT}/users`)
     .then(resp => resp.json())
     .then(json => this.setState({players: json,
       name: json[0].name,
@@ -52,7 +53,7 @@ class EditUser extends React.Component {
   editUser = event => {
     event.preventDefault();
     let myBody = {name: this.state.name, bio: this.state.bio, image: this.state.image};
-    fetch(`http://localhost:3000/api/v1/users/${this.state.selectedUser}`, {
+    fetch(`${API_ROOT}/users/${this.state.selectedUser}`, {
       method: "PATCH",
       headers: {
       "Content-Type": "application/json",
@@ -66,7 +67,7 @@ class EditUser extends React.Component {
 
   deleteUser = event => {
     event.preventDefault();
-    fetch(`http://localhost:3000/api/v1/users/${this.state.selectedUser}`, {
+    fetch(`${API_ROOT}/users/${this.state.selectedUser}`, {
       method: "DELETE",
       headers: {
       "Content-Type": "application/json",

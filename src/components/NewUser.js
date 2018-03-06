@@ -24,7 +24,7 @@ class NewUser extends React.Component {
     event.preventDefault()
     if (this.state.name !== "" && this.state.bio !== "") {
     let myBody = {name: this.state.name, bio: this.state.bio, image: this.state.image};
-    fetch('http://localhost:3000/api/v1/users', {
+    fetch('${API_ROOT}/users', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

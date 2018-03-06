@@ -4,6 +4,7 @@ import LeaderBoard from './LeaderBoard';
 import {Header, Segment, Divider, Icon, Button, Container, Dropdown} from "semantic-ui-react";
 import Jumbo from '../Jumbo';
 import Sound from 'react-sound';
+import {API_ROOT} from '../constants';
 
 class StartGame extends React.Component {
   constructor(props) {
@@ -25,11 +26,11 @@ class StartGame extends React.Component {
 
   //grab the players from the database and set the players array in state to the db's list of players
   componentDidMount(){
-    fetch('http://localhost:3000/api/v1/users')
+    fetch(`${API_ROOT}/users`)
     .then(resp => resp.json())
     .then(json => this.setState({players: json}))
 
-    fetch('http://localhost:3000/api/v1/leaderboard')
+    fetch(`${API_ROOT}/leaderboard`)
     .then(resp => resp.json())
     .then(json => this.setState({leaderboard: json}))
   }
@@ -52,7 +53,7 @@ class StartGame extends React.Component {
       alert("choose different players");
     } else {
       let myBody = {"user1_id": this.state.player1Select, "user2_id": this.state.player2Select}
-      fetch('http://localhost:3000/api/v1/games', {
+      fetch(`${API_ROOT}/games`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

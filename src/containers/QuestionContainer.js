@@ -2,6 +2,7 @@ import React from 'react';
 import QuestionContent from '../components/QuestionContent';
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 import { Header, Icon, Image, Segment, Container, Menu, Button } from 'semantic-ui-react';
+import {API_ROOT} from '../constants';
 
 
 
@@ -58,7 +59,7 @@ class QuestionContainer extends React.Component {
     let randomCategory = Math.floor(Math.random() * (32 - 9 + 1)) + 9;
 
     let myBody = {difficulty: currentDifficulty, category: randomCategory};
-    fetch('http://localhost:3000/api/v1/get_questions', {
+    fetch(`${API_ROOT}/get_questions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +132,7 @@ class QuestionContainer extends React.Component {
         "game_id": this.props.gameId,
         "category": this.state[`category${i +1}`]
       }
-      fetch('http://localhost:3000/api/v1/rounds', {
+      fetch(`${API_ROOT}/rounds`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

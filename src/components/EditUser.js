@@ -37,13 +37,9 @@ class EditUser extends React.Component {
   }
 
   handleSelect = (event, data) => {
-    console.log(event.target)
-    let newVal = data.id;
     let user = this.state.players.find(player => player.id === parseInt(data.value))
-    console.log(user)
-
     this.setState({
-      [newVal]: event.target.value,
+      selectedUser: user.id,
       name: user.name,
       bio: user.bio,
       image: user.image
@@ -84,7 +80,7 @@ class EditUser extends React.Component {
 
 
   render() {
-    console.log(this.state)
+    console.log("Inside the render, this is is the current state selected user", this.state.selectedUser)
     return (
       <div>
         <Container>

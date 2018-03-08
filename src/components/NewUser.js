@@ -1,6 +1,7 @@
 import React from 'react'
 import {Menu, Container, Button, Header, Icon, Dropdown, Segment, Form} from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { API_ROOT } from '../constants'
 
 
 
@@ -24,7 +25,7 @@ class NewUser extends React.Component {
     event.preventDefault()
     if (this.state.name !== "" && this.state.bio !== "") {
     let myBody = {name: this.state.name, bio: this.state.bio, image: this.state.image};
-    fetch('${API_ROOT}/users', {
+    fetch(`${API_ROOT}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

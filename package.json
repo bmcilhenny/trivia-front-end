@@ -2,8 +2,9 @@
   "name": "trivia-front-end",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://bmcilhenny.github.io/trivia-front-end",
+  "homepage": "http://bmcilhenny.github.io/trivia-front-end",
   "dependencies": {
+    "html-react-parser": "^0.4.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",

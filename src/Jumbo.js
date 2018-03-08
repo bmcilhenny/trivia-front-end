@@ -2,6 +2,8 @@ import React from 'react';
 import {Menu, Container, Button, Header, Icon, Dropdown, Segment} from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 import LeaderBoard from './components/LeaderBoard';
+// import Parser from 'html-react-parser';
+import Directions from './components/Directions';
 
 const Jumbo = (props) => {
   return (
@@ -30,7 +32,7 @@ const Jumbo = (props) => {
         />
         <Header
           as='h2'
-          content="Win absolutely nothing but hey, that's cool.."
+          content={props.displayCount ? "To buzz in click on the left(Player 1) or right(Player 2) shift button on the keyboard" : "Win absolutely nothing but hey, that's cool.."}
           inverted
           style={{ fontSize: '1.7em', fontWeight: 'normal' }}
         />

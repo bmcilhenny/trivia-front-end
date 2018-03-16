@@ -3,7 +3,7 @@ import {Menu, Container, Button, Header, Icon, Dropdown, Segment} from 'semantic
 import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 import LeaderBoard from './components/LeaderBoard';
 // import Parser from 'html-react-parser';
-import Directions from './components/Directions';
+// import Directions from './components/Directions';
 
 const Jumbo = (props) => {
   return (
@@ -36,7 +36,7 @@ const Jumbo = (props) => {
           inverted
           style={{ fontSize: '1.7em', fontWeight: 'normal' }}
         />
-        <Button primary size='huge' onClick={props.handleClick}>
+        <Button primary size='huge' onClick={props.handleClick} disabled={props.displayCount ? true : false}>
           Start a Game
           <Icon name='right arrow' />
         </Button>

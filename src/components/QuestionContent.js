@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Icon, Image, Segment, Grid, Container } from 'semantic-ui-react';
+import { Header, Icon, Image, Segment, Grid, Container, Reveal } from 'semantic-ui-react';
 import Sound from 'react-sound';
 
 
@@ -14,6 +14,8 @@ class QuestionContent extends React.Component {
       gameState: 1,
       timer: null,
       answeringPlayer: null,
+      player1Active: false,
+      player2Active: false,
       player1RoundScore: 0,
       player2RoundScore: 0,
       showAnswer: false,
@@ -281,8 +283,30 @@ class QuestionContent extends React.Component {
             inverted
             style={{ fontSize: '3em', fontWeight: 'normal', marginBottom: 0, marginTop: '0.2em' }}
           ></Header>
-          <Segment circular floated="left">Player 1 Current Round Score: {this.state.player1RoundScore}<p>Total: {this.getPlayer1Total()}</p></Segment>
-          <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>
+
+          <Segment circular floated="left">
+            <Reveal animated='rotate left' floated="left" active={this.state.player1Active}>
+              <Reveal.Content visible>
+                <Image circular size='small' src={this.props.user1Obj.image} />
+              </Reveal.Content>
+              <Reveal.Content hidden>
+                <Image circular size='small' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Green_Light_Icon.svg/2000px-Green_Light_Icon.svg.png' />
+              </Reveal.Content>
+            </Reveal>
+          </Segment>
+
+          <Segment circular floated="right">
+            <Reveal animated='rotate' floated="right" active={this.state.player2Active}>
+              <Reveal.Content visible>
+                <Image circular size='small' src={this.props.user2Obj.image} />
+              </Reveal.Content>
+              <Reveal.Content hidden>
+                <Image circular size='small' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Green_Light_Icon.svg/2000px-Green_Light_Icon.svg.png' />
+              </Reveal.Content>
+            </Reveal>
+          </Segment>
+
+
         </Segment>
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
         <Sound
@@ -296,3 +320,5 @@ class QuestionContent extends React.Component {
 }
 
 export default QuestionContent;
+// <Segment circular floated="left">Player 1 Current Round Score: {this.state.player1RoundScore}<p>Total: {this.getPlayer1Total()}</p></Segment>
+// <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>

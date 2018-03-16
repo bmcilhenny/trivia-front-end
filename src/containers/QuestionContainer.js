@@ -165,6 +165,8 @@ class QuestionContainer extends React.Component {
         gameId: this.props.gameId,
         user1Id: this.props.user1Id,
         user2Id: this.props.user2Id,
+        user1Obj: this.props.user1Obj,
+        user2Obj: this.props.user2Obj,
         category1: this.state.category1,
         category2: this.state.category2,
         category3: this.state.category3
@@ -192,7 +194,7 @@ class QuestionContainer extends React.Component {
           <source src="https://static.videezy.com/system/resources/previews/000/005/614/original/Bokeh_Pan.mp4" />
         </video>
 
-            {this.state.questions.length ? <QuestionContent nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
+            {this.state.questions.length ? <QuestionContent user1Obj={this.props.user1Obj} user2Obj={this.props.user2Obj} nextQuestion={this.nextQuestion} question={this.state.questions[currentQuestion].question} correctAnswer={this.state.questions[currentQuestion].correct_answer} incorrectAnswers={this.state.questions[currentQuestion].incorrect_answers} guess={this.guess} updateScore={this.updateScore} currentRound={this.state.currentRound} player1RoundsArray={this.state.player1RoundsArray} player2RoundsArray={this.state.player2RoundsArray} saveRound={this.saveRound}/> : 'Loading'}
 
     </div>
     )

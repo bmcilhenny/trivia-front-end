@@ -16,7 +16,9 @@ class Home extends React.Component {
       timer: null,
       players: [],
       player1Select: "",
+      player1: null,
       player2Select: "",
+      player2: null,
       leaderboard: [],
       activeItem: 'home',
       play: false,
@@ -61,18 +63,27 @@ class Home extends React.Component {
         },
         body: JSON.stringify(myBody)
       }).then(resp => resp.json())
-      .then(json => {console.log(json); this.props.setUpGame(json); this.delayStartGame()})
+      .then(json => {console.log(json); this.props.setUpGame(json, this.state.player1, this.state.player2); this.delayStartGame()})
     }
-
   }
+
+
 
   //update the state to reflect the selected player for player 1, same thing for player 2
   handlePlayer1Select = (event, data) => {
-    this.setState({player1Select: data.value});
+    let player1 = this.state.players.find(x => x.id === data.value)
+    this.setState({
+      player1Select: data.value,
+      player1: player1
+    });
   }
 
   handlePlayer2Select = (event, data) => {
-    this.setState({player2Select: data.value})
+    let player2 = this.state.players.find(x => x.id === data.value)
+    this.setState({
+      player2Select: data.value,
+      player2: player2
+    })
   }
 
   // this function is required to populate the Dropdown Semantic component with "options"

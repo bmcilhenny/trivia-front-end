@@ -20,15 +20,19 @@ class App extends Component {
     this.state = {
       user1Id: null,
       user2Id: null,
-      gameId: null
+      gameId: null,
+      user1Obj: null,
+      user2Obj: null
     }
   }
 
-  setUpGame = (game) => {
+  setUpGame = (game, user1, user2) => {
     this.setState({
       user1Id: game.user1_id,
       user2Id: game.user2_id,
-      gameId: game.id
+      gameId: game.id,
+      user1Obj: user1,
+      user2Obj: user2
     }, () => console.log(this.state))
   }
 
@@ -46,7 +50,7 @@ class App extends Component {
         <Route exact path={`/new`} render={ (routerProps) => < NewUser routerProps={routerProps} />} />
         <Route exact path={`/edit`} render={ (routerProps) => < EditUser routerProps={routerProps} />} />
         <Route exact path={`/`} render={ (routerProps) => < Home routerProps={routerProps} setUpGame={this.setUpGame} />} />
-        <Route exact path={`/gametime`} render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user2Id={this.state.user2Id} gameId={this.state.gameId} routerProps={routerProps}/>} />
+        <Route exact path={`/gametime`} render={ (routerProps) => < QuestionContainer user1Id={this.state.user1Id} user1Obj={this.state.user1Obj} user2Id={this.state.user2Id} user2Obj={this.state.user2Obj} gameId={this.state.gameId} routerProps={routerProps}/>} />
       </div>
     );
   }

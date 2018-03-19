@@ -20,10 +20,12 @@ class QuestionContent extends React.Component {
       player2RoundScore: 0,
       showAnswer: false,
       correctAnswer: '',
-      play: false
+      play: false,
+      player1Active: false,
+      player2Active: false
     }
   }
-// #
+
   shuffle = (a) => {
       for (let i = a.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -87,14 +89,18 @@ class QuestionContent extends React.Component {
         this.setState({
           answeringPlayer: true,
           gameState: 2,
-          play: "PLAYING"
+          play: "PLAYING",
+          player1Active: true,
+          player2Active: false
         })
       } else if (event.code === "ShiftRight") {
         this.updateBuzzer();
         this.setState({
           answeringPlayer: false,
           gameState: 2,
-          play: "PLAYING"
+          play: "PLAYING",
+          player1Active: false,
+          player2Active: true
         })
       }
     }
@@ -157,6 +163,7 @@ class QuestionContent extends React.Component {
       alert("right!")
       this.calculatePositivePoints();
       this.setUpNextQuestion();
+      this.setState({player1Active: false, player2Active: false})
     }
 
     if (event.target.name === "incorrect"){
@@ -164,8 +171,13 @@ class QuestionContent extends React.Component {
       event.target.disabled = true
       if (this.state.gameState === 2) {
         this.setState({gameState: 3, answeringPlayer: !this.state.answeringPlayer}, this.updateBuzzer)
+        if (this.state.player1Active) {
+          this.setState({player1Active: false, player2Active: true})
+        } else {
+          this.setState({player1Active: true, player2Active: false})
+        }
       } else if (this.state.gameState === 3) {
-        this.setState({gameState: 4, answeringPlayer: null})
+        this.setState({gameState: 4, answeringPlayer: null, player1Active: false, player2Active: false})
       }
       this.calculateNegativePoints();
     }
@@ -182,7 +194,7 @@ class QuestionContent extends React.Component {
 
 
     setUpNextQuestion = () => {
-      this.setState({gameState: 1, answeringPlayer: null, showAnswer: false}, this.props.nextQuestion)
+      this.setState({gameState: 1, answeringPlayer: null, showAnswer: false, player1Active: false, player2Active: false}, this.props.nextQuestion)
       this.updateBuzzer()
     }
 
@@ -194,9 +206,9 @@ class QuestionContent extends React.Component {
     if (this.state.answeringPlayer === null) {
       return "Buzz in!"
     } else if (this.state.answeringPlayer === true) {
-      return "Player 1's Turn"
+      return `${this.props.user1Obj.name}'s turn`
     } else if (this.state.answeringPlayer === false) {
-      return "Player 2's Turn"
+      return `${this.props.user2Obj.name}'s turn`
     }
   }
 
@@ -246,9 +258,9 @@ class QuestionContent extends React.Component {
       return (
         <Container text textAlign='center'>
           <Segment style={{height: 400, width: 650, background: "rgba(211, 211, 211, .9)"}}>
-            <h2>{this.state.count} second left</h2>
-            <h2 color="red">{this.displayCurrentPlayer()}</h2>
-            <h3>{this.props.question}</h3>
+            <h3>{this.state.count} second(s) left</h3>
+            <h3 color="red">{this.displayCurrentPlayer()}</h3>
+            <h2>{this.props.question}</h2>
             <br />
             {this.state.shuffled.map(answer => <button key={answer} className="blue big ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
           </Segment>
@@ -284,7 +296,7 @@ class QuestionContent extends React.Component {
             style={{ fontSize: '3em', fontWeight: 'normal', marginBottom: 0, marginTop: '0.2em' }}
           ></Header>
 
-          <Segment circular floated="left">
+          <Segment circular floated="left" active={this.state.player1Active}>
             <Reveal animated='rotate left' floated="left" active={this.state.player1Active}>
               <Reveal.Content visible>
                 <Image circular size='small' src={this.props.user1Obj.image} />
@@ -295,7 +307,7 @@ class QuestionContent extends React.Component {
             </Reveal>
           </Segment>
 
-          <Segment circular floated="right">
+          <Segment circular floated="right" active={this.state.player2Active}>
             <Reveal animated='rotate' floated="right" active={this.state.player2Active}>
               <Reveal.Content visible>
                 <Image circular size='small' src={this.props.user2Obj.image} />

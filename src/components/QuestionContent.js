@@ -232,29 +232,10 @@ class QuestionContent extends React.Component {
     return player2Score
   }
 
-  // getTotalScores = () => {
-  //   let player1Score = ''
-  //   let player2Score = ''
-  //   if (this.props.player1RoundsArray.length !== 0) {
-  //     player1Score = this.props.player1RoundsArray.reduce(function (total, num) {
-  //         return total + num;
-  //         })
-  //   } else {
-  //     player1Score = ''
-  //   }
-  //
-  //
-  //   if (this.props.player2RoundsArray.length !== 0) {
-  //     player2Score = this.props.player2RoundsArray.reduce(function getSum(total, num) {
-  //     return total + num;})
-  //   } else {
-  //     player2Score = ''
-  //   }
-  //   return `Player 1 Total Score:${player1Score}| Player 2 Total Score: ${player2Score}`
-  // }
-
   // displays current player, maps over all of the randomized answer buttons and once clicked disables them
     gameOn = () => {
+
+      let answers = this.state.shuffled.map(answer => <button key={answer} className="blue big ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)
       return (
         <Container text textAlign='center'>
           <Segment style={{height: 400, width: 650, background: "rgba(211, 211, 211, .9)"}}>
@@ -262,7 +243,24 @@ class QuestionContent extends React.Component {
             <h3 color="red">{this.displayCurrentPlayer()}</h3>
             <h2>{this.props.question}</h2>
             <br />
-            {this.state.shuffled.map(answer => <button key={answer} className="blue big ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+            <Grid columns="2">
+              <Grid.Row>
+                <Grid.Column>
+                  {answers[0]}
+                </Grid.Column>
+                <Grid.Column>
+                  {answers[1]}
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  {answers[2]}
+                </Grid.Column>
+                <Grid.Column>
+                  {answers[3]}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
         </Container>
       )
@@ -306,7 +304,6 @@ class QuestionContent extends React.Component {
               </Reveal.Content>
             </Reveal>
           </Segment>
-
           <Segment circular floated="right" active={this.state.player2Active}>
             <Reveal animated='rotate' floated="right" active={this.state.player2Active}>
               <Reveal.Content visible>
@@ -317,20 +314,39 @@ class QuestionContent extends React.Component {
               </Reveal.Content>
             </Reveal>
           </Segment>
-
-
         </Segment>
+
         {this.state.showAnswer ? this.showAnswer() : this.gameOn()}
         <Sound
         url="https://www.myinstants.com/media/sounds/times-up.mp3"
         playStatus={this.state.play}
         onFinishedPlaying={() => this.setState({play: false})}
         />
+        <Segment floated="left" style={{padding: '20px'}}>
+          Current Round Score: {this.state.player1RoundScore}
+        </Segment>
+
+        <Segment floated="right" style={{padding: '20px'}}>
+          Current Round Score: {this.state.player2RoundScore}
+        </Segment>
       </div>
     )
   }
 }
 
 export default QuestionContent;
+// {this.state.shuffled.map(answer => <button key={answer} className="blue big ui button" disabled={this.state.gameState === 1 ? true : false} onClick={this.guess} key={answer.id} name={answer === this.props.correctAnswer ? "correct" : "incorrect"} >{answer}</button>)}
+
 // <Segment circular floated="left">Player 1 Current Round Score: {this.state.player1RoundScore}<p>Total: {this.getPlayer1Total()}</p></Segment>
 // <Segment circular floated="right">Player 2 Current Round Score: {this.state.player2RoundScore}<p>Total: {this.getPlayer2Total()}</p></Segment>
+
+
+// <Segment style={{background: 0, border: 0}}>
+  // <Segment circular floated="left">
+  //   Current Round Score: {this.state.player1RoundScore}
+  // </Segment>
+//
+  // <Segment circular floated="right">
+  //   Current Round Score: {this.state.player2RoundScore}
+  // </Segment>
+// </Segment>

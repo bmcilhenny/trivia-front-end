@@ -5,11 +5,18 @@ body {
 }
 
 #bg-video {
-  top: 0px;
-  left: 0px;
+  /* top: 0px;
+  left: 0px; */
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
   position: fixed;
   z-index: -1;
+  /* width: 100%; */
+  /* background-size: cover;
   width: 100%;
+  height: auto; */
 }
 
 .jumbovidtext {
@@ -21,7 +28,10 @@ body {
 .jumbotron {
   background: rgba(128,128,128,0.5);
   margin: 25vh 0;
-  overflow-y: hidden;
+  /* overflow-y: visible;
+  background-size: cover; */
+  /* width: auto;
+  height: 100%; */
 }
 
 main {

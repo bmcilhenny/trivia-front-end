@@ -46,9 +46,6 @@ class NewUser extends React.Component {
         <Container>
           <Menu  inverted pointing secondary size='large'>
             <Menu.Item as={Link} to="" active>Home</Menu.Item>
-            <Menu.Item as='a'>Careers</Menu.Item>
-            <Menu.Item as='a'>Add a Question</Menu.Item>
-            <Menu.Item as='a'>Api</Menu.Item>
             <Menu.Item position='right'>
               <Button as={Link} to="new" inverted className={"white-link"}>Add User</Button>
               <Button as={Link} to="edit" inverted style={{ marginLeft: '0.5em' }}>Edit User</Button>

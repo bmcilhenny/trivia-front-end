@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Icon, Image, Segment, Grid, Container, Reveal } from 'semantic-ui-react';
+import { Header, Icon, Image, Segment, Grid, Container, Reveal, Transition } from 'semantic-ui-react';
 import Sound from 'react-sound';
 
 
@@ -22,7 +22,8 @@ class QuestionContent extends React.Component {
       correctAnswer: '',
       play: false,
       player1Active: false,
-      player2Active: false
+      player2Active: false,
+      visible: false
     }
   }
 
@@ -80,6 +81,10 @@ class QuestionContent extends React.Component {
         gameState: 5
       }, this.showAnswerTimeOut)
     }
+  }
+  
+  showThumbsUp() {
+    
   }
 
   handleBuzzIn = (event) => {
@@ -160,15 +165,16 @@ class QuestionContent extends React.Component {
   guess = (event) => {
 
     if (event.target.name === "correct") {
-      alert("right!")
+      // alert("right!")
       this.calculatePositivePoints();
       this.setUpNextQuestion();
-      this.setState({player1Active: false, player2Active: false})
+      this.setState({player1Active: false, player2Active: false, visible: true}, () => setTimeout(() => this.setState({visible: false}), 1000))
     }
 
     if (event.target.name === "incorrect"){
-      alert("wrong!")
-      event.target.disabled = true
+      // alert("wrong!")
+      event.target.disabled = true;
+      // event.target.color = 'red';
       if (this.state.gameState === 2) {
         this.setState({gameState: 3, answeringPlayer: !this.state.answeringPlayer}, this.updateBuzzer)
         if (this.state.player1Active) {
@@ -239,6 +245,7 @@ class QuestionContent extends React.Component {
       return (
         <Container text textAlign='center'>
           <Segment style={{height: 400, width: 650, background: "rgba(211, 211, 211, .9)"}}>
+          
             <h3>{this.state.count} second(s) left</h3>
             <h3 color="red">{this.displayCurrentPlayer()}</h3>
             <h2>{this.props.question}</h2>
@@ -262,6 +269,9 @@ class QuestionContent extends React.Component {
               </Grid.Row>
             </Grid>
           </Segment>
+            <Transition.Group animation="fly up" duration="900">
+              {this.state.visible && <Icon name="thumbs up" size="huge" style={{color: "white", position: "fixed", top: "50%", left: "50%", marginTop: "-50px", marginLeft: "-50px"}}/>}
+            </Transition.Group>
         </Container>
       )
     }
@@ -329,6 +339,7 @@ class QuestionContent extends React.Component {
         <Segment floated="right" style={{padding: '20px'}}>
           Current Round Score: {this.state.player2RoundScore}
         </Segment>
+        
       </div>
     )
   }

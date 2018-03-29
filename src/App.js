@@ -9,8 +9,6 @@ import Home from './components/Home';
 import EditUser from './components/EditUser';
 import NewUser from './components/NewUser'
 import { Container } from 'semantic-ui-react';
-// let history = process.env.NODE_ENV === "production" ? hashHistory : browserHistory;
-
 
 
 class App extends Component {
